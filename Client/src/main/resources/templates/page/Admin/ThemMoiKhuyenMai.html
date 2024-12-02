@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Them Moi Khuyen Mai</title>
+  <link
+          rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  />
+  <style>
+    .sidebar {
+      min-height: 100vh;
+      position: fixed;
+      width: 16.6%;
+      background-color: #343a40; /
+    }
+    .sidebar .nav-link {
+      color: #fff;
+    }
+    .main-content {
+      margin-left: 16.66%;
+    }
+
+    .sidebar .nav-link.active-border {
+      border-left: 4px solid #17a2b8;
+      background-color: #495057;
+      color: #ffffff;
+    }
+    .styleUser {
+      margin-top: 20%;
+      color: #fff;
+    }
+    .styleForm{
+      width: 50%;margin: 0 auto;
+    }
+    .btn-custom {
+      background-color: #ffc107;
+      color: #000;
+    }
+
+    .btn-edit {
+      background-color: #17a2b8;
+      color: #fff;
+    }
+
+    .btn-delete {
+      background-color: #dc3545;
+      color: #fff;
+    }
+
+    .status-active {
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .status-ended {
+      background-color: #dc3545;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .table th, .table td {
+      vertical-align: middle;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <nav class="sidebar col-md-2 d-none d-md-block">
+      <div class="sidebar-sticky">
+        <h4 class="text-light text-center mt-4">AdminAD</h4>
+        <ul class="nav flex-column mt-3">
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/admin/orders/Home" onclick="setActive(this)">Home</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/admin/users/list" onclick="setActive(this)">Thành viên</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/page/admin/reviews" onclick="setActive(this)">Đánh giá</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/page/admin/products" onclick="setActive(this)">Sản phẩm</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/admin/orders/view" onclick="setActive(this)">Đơn hàng</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/admin/vouchers/view" onclick="setActive(this)">Khuyến Mãi</a>
+          </li>
+        </ul>
+        <div class="styleUser text-center" style="margin-top: 110%">
+          <h6 id="username-display"></h6>
+          <button class="btn btn-danger stylebtnDangXuat" onclick="logout()">Đăng Xuất</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content col-md-10 ml-sm-auto px-4">
+      <div
+              class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h2>Danh Sách Khuyến Mãi</h2>
+      </div>
+
+      <!-- Search and Filter -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <div class="form-group mr-3">
+            <input
+                    type="date"
+                    class="form-control"
+                    id="searchStartDate"
+                    placeholder="Chọn ngày bắt đầu"
+            />
+          </div>
+          <div class="form-group mr-3">
+            <input
+                    type="date"
+                    class="form-control"
+                    id="searchEndDate"
+                    placeholder="Chọn ngày kết thúc"
+            />
+          </div>
+          <button class="btn btn-info ml-3" onclick="handleSearch()">Tìm kiếm</button>
+          <button class="btn btn-info ml-3" onclick="location.reload()">Refresh</button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <table  class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+          <th>Mã</th>
+          <th>Tên</th>
+          <th>Giá trị</th>
+          <th>Ngày bắt đầu</th>
+          <th>Ngày kết thúc</th>
+          <th>Trạng thái</th>
+          <th>Giá trị đơn tối thiểu</th>
+          <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="voucher-list">
+        <tr th:each="voucher : ${vouchers}">
+          <td th:text="${voucher.voucherID}"></td>
+          <td th:text="${voucher.name}"></td>
+          <td>
+            <span th:if="${voucher.discountType == 'Flat'}"
+                  class="currency" th:text="${voucher.discountValue}"></span>
+            <span th:if="${voucher.discountType == 'Percentage'}"
+                  th:text="${voucher.discountValue + ' %'}"></span>
+          </td>
+          <td th:text="${voucher.startDate}"></td>
+          <td th:text="${voucher.endDate}"></td>
+          <td th:text="${voucher.status}"></td>
+          <td class="currency" th:text="${voucher.minValueOrder}"></td>
+          <td>
+            <button class="btn btn-primary btn-sm edit-btn">Edit</button>
+            <button class="btn btn-danger btn-sm delete-btn" th:data-id="${voucher.voucherID}">Delete</button>
+          </td>
+        </tr>
+        </tbody>
+
+      </table>
+    </main>
+    <main class="main-content col-md-10 ml-sm-auto px-4">
+      <div
+              class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h2>Thêm Mã Khuyến Mãi</h2>
+      </div>
+
+      <!-- Form Thêm Mã Khuyến Mãi -->
+      <form id="voucher-form">
+        <div class="row">
+          <!-- Tên phiếu giảm giá -->
+          <div class="form-group col-md-6">
+            <label for="tenPhieuGiamGia">* Tên phiếu giảm giá</label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="tenPhieuGiamGia"
+                    placeholder="Nhập tên phiếu giảm giá"
+                    required
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Kiểu giảm giá (Percentage hoặc Flat) -->
+          <div class="form-group col-md-6">
+            <label>* Kiểu giảm giá</label><br>
+            <div class="form-check form-check-inline">
+              <input
+                      type="radio"
+                      id="discount-percentage"
+                      name="discount-type"
+                      class="form-check-input"
+                      value="Percentage"
+                      checked
+              />
+              <label class="form-check-label" for="discount-percentage">Phần trăm</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                      type="radio"
+                      id="discount-flat"
+                      name="discount-type"
+                      class="form-check-input"
+                      value="Flat"
+              />
+              <label class="form-check-label" for="discount-flat">Giảm giá tiền</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Phần trăm giảm -->
+          <div class="form-group col-md-6" id="percentage-container">
+            <label for="phanTramGiam">Giảm giá</label>
+            <div class="input-group">
+              <input
+                      type="text"
+                      class="form-control"
+                      id="phanTramGiam"
+                      placeholder="giảm giá"
+                      required
+              />
+
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="giaTriDonToiThieu">* Giá trị đơn tối thiểu</label>
+            <div class="input-group">
+              <input
+                      type="text"
+                      class="form-control"
+                      id="giaTriDonToiThieu"
+                      placeholder="Nhập giá trị đơn tối thiểu"
+                      required
+              />
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <!-- Ngày bắt đầu -->
+          <div class="form-group col-md-6">
+            <label for="ngayBatDau">* Ngày bắt đầu</label>
+            <div class="input-group">
+              <input
+                      type="datetime-local"
+                      class="form-control"
+                      id="ngayBatDau"
+                      required
+              />
+            </div>
+          </div>
+
+          <!-- Ngày kết thúc -->
+          <div class="form-group col-md-6">
+            <label for="ngayKetThuc">* Ngày kết thúc</label>
+            <div class="input-group">
+              <input
+                      type="datetime-local"
+                      class="form-control"
+                      id="ngayKetThuc"
+                      required
+              />
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <label for="moTa">* Mô tả khuyến mãi</label>
+          <textarea
+                  class="form-control"
+                  id="moTa"
+                  placeholder="Nhập mô tả khuyến mãi"
+                  rows="3"
+                  required
+          ></textarea>
+        </div>
+        <!-- Nút hành động -->
+        <div class="form-group text-right">
+          <button type="reset" class="btn btn-secondary">Làm mới</button>
+          <button type="submit" class="btn btn-success">Lưu</button>
+        </div>
+      </form>
+    </main>
+
+
+    <main class="main-content col-md-10 ml-sm-auto px-4">
+      <div
+              class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h2>Chỉnh Sửa Mã Khuyến Mãi</h2>
+      </div>
+
+      <!-- Form Thêm Mã Khuyến Mãi -->
+      <form id="voucher-form-edit">
+        <div class="row">
+          <!-- Tên phiếu giảm giá -->
+          <div class="form-group col-md-6">
+            <label for="tenPhieuGiamGia">* Tên phiếu giảm giá</label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="tenPhieuGiamGiaEdit"
+                    placeholder="Nhập tên phiếu giảm giá Cần Chỉnh Sửa"
+                    required
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Kiểu giảm giá (Percentage hoặc Flat) -->
+          <div class="form-group col-md-6">
+            <label>* Chỉnh sửa Kiểu giảm giá </label><br>
+            <div class="form-check form-check-inline">
+              <input
+                      type="radio"
+                      id="discount-percentage-edit"
+                      name="discount-type-edit"
+                      class="form-check-input"
+                      value="Percentage"
+                      checked
+              />
+              <label class="form-check-label" for="discount-percentage-edit">Phần trăm</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                      type="radio"
+                      id="discount-flat-edit"
+                      name="discount-type-edit"
+                      class="form-check-input"
+                      value="Flat"
+              />
+              <label class="form-check-label" for="discount-flat-edit">Giảm giá tiền</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Phần trăm giảm -->
+          <div class="form-group col-md-6" id="percentage-container-edit">
+            <label for="phanTramGiam-edit">Chỉnh Sửa Giảm giá</label>
+            <div class="input-group">
+              <input
+                      type="text"
+                      class="form-control"
+                      id="phanTramGiam-edit"
+                      placeholder="giảm giá"
+                      required
+              />
+
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="giaTriDonToiThieu-edit">* Chỉnh Sửa Giá trị đơn tối thiểu</label>
+            <div class="input-group">
+              <input
+                      type="text"
+                      class="form-control"
+                      id="giaTriDonToiThieu-edit"
+                      placeholder="Nhập giá trị đơn tối thiểu"
+                      required
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <!-- Ngày bắt đầu -->
+          <div class="form-group col-md-6">
+            <label for="ngayBatDau-edit">* Chỉnh Sửa Ngày bắt đầu</label>
+            <div class="input-group">
+              <input
+                      type="date"
+                      class="form-control"
+                      id="ngayBatDau-edit"
+                      required
+              />
+            </div>
+          </div>
+
+          <!-- Ngày kết thúc -->
+          <div class="form-group col-md-6">
+            <label for="ngayKetThuc-edit">* Chỉnh Sửa Ngày kết thúc</label>
+            <div class="input-group">
+              <input
+                      type="date"
+                      class="form-control"
+                      id="ngayKetThuc-edit"
+                      required
+              />
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <label for="moTa-edit">* Chỉnh sửa mô tả khuyến mãi</label>
+          <textarea
+                  class="form-control"
+                  id="moTa-edit"
+                  placeholder="Nhập mô tả khuyến mãi"
+                  rows="3"
+                  required
+          ></textarea>
+        </div>
+        <!-- Nút hành động -->
+        <div class="form-group text-right">
+          <button type="submit" class="btn btn-info">Cập nhật</button>
+        </div>
+      </form>
+    </main>
+  </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/js/Voucher.js"></script>
+<script>
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const username = sessionStorage.getItem("username"); // Lấy username từ Session Storage
+    if (username) {
+      console.log("Username found in Session Storage:", username);
+      document.getElementById("username-display").innerText = username; // Hiển thị lại
+    } else {
+      console.log("No username found. Redirecting to login page.");
+      window.location.href = "/login"; // Chuyển hướng về trang đăng nhập nếu không có username
+    }
+  });
+
+
+  function logout() {
+    sessionStorage.removeItem("username"); // Xóa username khỏi Session Storage
+    console.log("Username removed from Session Storage");
+    window.location.href = "/login"; // Chuyển hướng về trang đăng nhập
+  }
+</script>
+</body>
+</html>

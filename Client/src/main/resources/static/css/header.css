@@ -1,0 +1,62 @@
+/* General Navbar Styles */
+.navbar {
+    background-color: transparent;
+    padding: 0.8rem 1rem;
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+}
+
+/* Navbar background color for non-home pages */
+.page-search .navbar,
+.page-about .navbar,
+.page-products .navbar,
+.page-product-detail .navbar,
+.page-cart .navbar,
+.page-account .navbar,
+.navbar--scrolled {
+    background-color: #003366; /* Dark blue color for non-home pages and when scrolled */
+}
+
+/* Navbar brand */
+.navbar__brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* Navbar link styles */
+.navbar__link {
+    color: white;
+    font-weight: 500;
+    font-size: 1rem;
+    margin-right: 2rem;
+    text-decoration: none;
+}
+
+.navbar__link:hover {
+    color: black; /* Dark color on hover */
+    text-decoration: none;
+}
+
+/* Dropdown menu customization */
+.dropdown-menu {
+    background-color: #003366;
+    border: none;
+}
+
+.dropdown-item {
+    color: white;
+}
+
+.dropdown-item:hover {
+    background-color: #e9eef3;
+    color: #003366;
+}
+
+/* Display dropdown on hover */
+.navbar-nav .nav-item:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+

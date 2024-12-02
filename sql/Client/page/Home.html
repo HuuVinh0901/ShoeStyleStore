@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="../css/Home.css" />
+</head>
+
+<body class="page-home">
+  <!-- Navbar -->
+  <div id="header"></div>
+  <div class="header">
+    <div class="slogan slogan-top">Step in Style</div>
+    <img src="../images/boots.png" alt="Ski Boots" class="header__boot-image header__boot-image--show" />
+    <div class="slogan slogan-bottom">Conquer Every Journey!</div>
+  </div>
+
+  <!-- Featured Items Section -->
+  <section class="featured-items py-5">
+    <div class="container">
+      <div class="row">
+        <!-- Item 1 -->
+        <div class="featured-items__item col-md-4 mb-4">
+          <div class="featured-items__content text-center p-4 border">
+            <img src="../images/shoe1.png" alt="Running Shoes" class="featured-items__image img-fluid mb-3"
+              style="height: 200px" />
+            <h5 class="featured-items__category text-uppercase">
+              Men - On | Swiss Performance
+            </h5>
+            <h3 class="featured-items__name font-weight-bold">
+              Running Shoes
+            </h3>
+            <p class="featured-items__price old-price text-muted">
+              <s>$90.00</s>
+              <span class="featured-items__price--discount text-primary">$65.00</span>
+            </p>
+            <a href="#" class="featured-items__link btn btn-link text-warning font-weight-bold">Shop Now <i
+                class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="featured-items__item col-md-4 mb-4">
+          <div class="featured-items__content text-center p-4 border">
+            <img src="../images/shoe2.png" alt="Tennis Shoes" class="featured-items__image img-fluid mb-3"
+              style="height: 200px" />
+            <h5 class="featured-items__category text-uppercase">
+              Asics Gel-Resolution
+            </h5>
+            <h3 class="featured-items__name font-weight-bold">
+              Tennis Shoes
+            </h3>
+            <p class="featured-items__price old-price text-muted">
+              <s>$130.00</s>
+              <span class="featured-items__price--discount text-danger">$95.00</span>
+            </p>
+            <a href="#" class="featured-items__link btn btn-link text-warning font-weight-bold">Shop Now <i
+                class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="featured-items__item col-md-4 mb-4">
+          <div class="featured-items__content text-center p-4 border">
+            <img src="../images/shoe3.png" alt="Running Shoes" class="featured-items__image img-fluid mb-3"
+              style="height: 200px" />
+            <h5 class="featured-items__category text-uppercase">
+              Men - On | Swiss Performance
+            </h5>
+            <h3 class="featured-items__name font-weight-bold">
+              Running Shoes
+            </h3>
+            <p class="featured-items__price old-price text-muted">
+              <s>$70.00</s>
+              <span class="featured-items__price--discount text-success">$56.00</span>
+            </p>
+            <a href="#" class="featured-items__link btn btn-link text-warning font-weight-bold">Shop Now <i
+                class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="banner">
+    <img src="../images/banner.png" alt="Banner" />
+  </div>
+
+  <div class="tab-products">
+    <div class="tab-products__title">
+      <div class="tab-menu">
+        <button class="tab-menu__item tab-menu__item--active" onclick="showTab('bestsellers')">
+          Bestsellers
+        </button>
+        <button class="tab-menu__item" onclick="showTab('new-arrivals')">
+          New Arrivals
+        </button>
+        <button class="tab-menu__item" onclick="showTab('trending')">
+          Trending
+        </button>
+      </div>
+    </div>
+
+    <div class="tab-products__container">
+      <!-- Previous Button -->
+      <button class="tab-product-list__button tab-product-list__button--prev" onclick="scrollProducts('prev')">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <div class="tab-products__list" id="bestsellers">
+        <!-- Product 1 -->
+        <div class="tab-product-card">
+          <div class="tab-product-card__image-wrapper">
+            <img src="../images/product1.jpg" alt="Product 1" class="tab-product-card__image" />
+            <span class="tab-product-card__discount-badge">-30%</span>
+          </div>
+          <div class="tab-product-card__info">
+            <h3 class="tab-product-card__name">Sneakers De Sport Running</h3>
+            <p class="tab-product-card__category">Shoes</p>
+            <p class="tab-product-card__price">
+              $70.00 <span class="tab-product-card__price--old">$100.00</span>
+            </p>
+          </div>
+          <div class="tab-product-card__actions">
+            <button class="tab-product-card__add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+        <!-- Product 1 -->
+        <div class="tab-product-card">
+          <div class="tab-product-card__image-wrapper">
+            <img src="../images/product1.jpg" alt="Product 1" class="tab-product-card__image" />
+            <span class="tab-product-card__discount-badge">-30%</span>
+          </div>
+          <div class="tab-product-card__info">
+            <h3 class="tab-product-card__name">Sneakers De Sport Running</h3>
+            <p class="tab-product-card__category">Shoes</p>
+            <p class="tab-product-card__price">
+              $70.00 <span class="tab-product-card__price--old">$100.00</span>
+            </p>
+          </div>
+          <div class="tab-product-card__actions">
+            <button class="tab-product-card__add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+        <!-- Product 1 -->
+        <div class="tab-product-card">
+          <div class="tab-product-card__image-wrapper">
+            <img src="../images/product1.jpg" alt="Product 1" class="tab-product-card__image" />
+            <span class="tab-product-card__discount-badge">-30%</span>
+          </div>
+          <div class="tab-product-card__info">
+            <h3 class="tab-product-card__name">Sneakers De Sport Running</h3>
+            <p class="tab-product-card__category">Shoes</p>
+            <p class="tab-product-card__price">
+              $70.00 <span class="tab-product-card__price--old">$100.00</span>
+            </p>
+          </div>
+          <div class="tab-product-card__actions">
+            <button class="tab-product-card__add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+        <!-- Product 1 -->
+        <div class="tab-product-card">
+          <div class="tab-product-card__image-wrapper">
+            <img src="../images/product1.jpg" alt="Product 1" class="tab-product-card__image" />
+            <span class="tab-product-card__discount-badge">-30%</span>
+          </div>
+          <div class="tab-product-card__info">
+            <h3 class="tab-product-card__name">Sneakers De Sport Running</h3>
+            <p class="tab-product-card__category">Shoes</p>
+            <p class="tab-product-card__price">
+              $70.00 <span class="tab-product-card__price--old">$100.00</span>
+            </p>
+          </div>
+          <div class="tab-product-card__actions">
+            <button class="tab-product-card__add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+        <!-- Product 2 -->
+        <div class="tab-product-card">
+          <div class="tab-product-card__image-wrapper">
+            <img src="../images/product2.jpg" alt="Product 2" class="tab-product-card__image" />
+            <span class="tab-product-card__discount-badge">-20%</span>
+          </div>
+          <div class="tab-product-card__info">
+            <h3 class="tab-product-card__name">Professional Sports Shoes</h3>
+            <p class="tab-product-card__category">Shoes</p>
+            <p class="tab-product-card__price">
+              $80.00 <span class="tab-product-card__price--old">$100.00</span>
+            </p>
+          </div>
+          <div class="tab-product-card__actions">
+            <button class="tab-product-card__add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="tab-product-card">
+          <div class="tab-product-card__image-wrapper">
+            <img src="../images/product2.jpg" alt="Product 3" class="tab-product-card__image" />
+            <span class="tab-product-card__discount-badge">-15%</span>
+          </div>
+          <div class="tab-product-card__info">
+            <h3 class="tab-product-card__name">Running Shoes</h3>
+            <p class="tab-product-card__category">Shoes</p>
+            <p class="tab-product-card__price">
+              $60.00 <span class="tab-product-card__price--old">$80.00</span>
+            </p>
+          </div>
+          <div class="tab-product-card__actions">
+            <button class="tab-product-card__add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-products__list" id="trending" style="display: none">
+        <!-- Product 1 -->
+        <div class="tab-product-card">
+          <div class="tab-product-card__image-wrapper">
+            <img src="../images/product2.jpg" alt="Product 1" class="tab-product-card__image" />
+            <span class="tab-product-card__discount-badge">-30%</span>
+          </div>
+          <div class="tab-product-card__info">
+            <h3 class="tab-product-card__name">Sneakers De Sport Running</h3>
+            <p class="tab-product-card__category">Shoes</p>
+            <p class="tab-product-card__price">
+              $70.00 <span class="tab-product-card__price--old">$100.00</span>
+            </p>
+          </div>
+          <div class="tab-product-card__actions">
+            <button class="tab-product-card__add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+        <!-- Product 2 -->
+        <div class="tab-product-card">
+          <div class="tab-product-card__image-wrapper">
+            <img src="../images/product2.jpg" alt="Product 2" class="tab-product-card__image" />
+            <span class="tab-product-card__discount-badge">-20%</span>
+          </div>
+          <div class="tab-product-card__info">
+            <h3 class="tab-product-card__name">Professional Sports Shoes</h3>
+            <p class="tab-product-card__category">Shoes</p>
+            <p class="tab-product-card__price">
+              $80.00 <span class="tab-product-card__price--old">$100.00</span>
+            </p>
+          </div>
+          <div class="tab-product-card__actions">
+            <button class="tab-product-card__add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="tab-product-card">
+          <div class="tab-product-card__image-wrapper">
+            <img src="../images/product3.jpg" alt="Product 3" class="tab-product-card__image" />
+            <span class="tab-product-card__discount-badge">-15%</span>
+          </div>
+          <div class="tab-product-card__info">
+            <h3 class="tab-product-card__name">Running Shoes</h3>
+            <p class="tab-product-card__category">Shoes</p>
+            <p class="tab-product-card__price">
+              $60.00 <span class="tab-product-card__price--old">$80.00</span>
+            </p>
+          </div>
+          <div class="tab-product-card__actions">
+            <button class="tab-product-card__add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-products__list" id="new-arrivals" style="display: none">
+        <!-- Product 1 -->
+        <div class="tab-product-card">
+          <div class="tab-product-card__image-wrapper">
+            <img src="../images/product1.jpg" alt="Product 1" class="tab-product-card__image" />
+            <span class="tab-product-card__discount-badge">-30%</span>
+          </div>
+          <div class="tab-product-card__info">
+            <h3 class="tab-product-card__name">Sneakers De Sport Running</h3>
+            <p class="tab-product-card__category">Shoes</p>
+            <p class="tab-product-card__price">
+              $70.00 <span class="tab-product-card__price--old">$100.00</span>
+            </p>
+          </div>
+          <div class="tab-product-card__actions">
+            <button class="tab-product-card__add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+        <!-- Product 2 -->
+        <div class="tab-product-card">
+          <div class="tab-product-card__image-wrapper">
+            <img src="../images/product2.jpg" alt="Product 2" class="tab-product-card__image" />
+            <span class="tab-product-card__discount-badge">-20%</span>
+          </div>
+          <div class="tab-product-card__info">
+            <h3 class="tab-product-card__name">Professional Sports Shoes</h3>
+            <p class="tab-product-card__category">Shoes</p>
+            <p class="tab-product-card__price">
+              $80.00 <span class="tab-product-card__price--old">$100.00</span>
+            </p>
+          </div>
+          <div class="tab-product-card__actions">
+            <button class="tab-product-card__add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+        <!-- Product 3 -->
+        <div class="tab-product-card">
+          <div class="tab-product-card__image-wrapper">
+            <img src="../images/product3.jpg" alt="Product 3" class="tab-product-card__image" />
+            <span class="tab-product-card__discount-badge">-15%</span>
+          </div>
+          <div class="tab-product-card__info">
+            <h3 class="tab-product-card__name">Running Shoes</h3>
+            <p class="tab-product-card__category">Shoes</p>
+            <p class="tab-product-card__price">
+              $60.00 <span class="tab-product-card__price--old">$80.00</span>
+            </p>
+          </div>
+          <div class="tab-product-card__actions">
+            <button class="tab-product-card__add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <!-- Next Button -->
+      <button class="tab-product-list__button tab-product-list__button--next" onclick="scrollProducts('next')">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="feature-product-section">
+    <div class="feature-product-container">
+      <div class="feature-product-content">
+        <h3>FEATURES PRODUCTS</h3>
+        <h1>LUKMALL MEN RUNNING</h1>
+        <button class="buy-now-btn">BUY NOW</button>
+      </div>
+      <div class="feature-product-image">
+        <img src="../images/shoe3.png" alt="Lukmall Men Running Shoe">
+      </div>
+      <div class="feature-product-details">
+        <ul>
+          <li><span>&#10003;</span> Gender: Men</li>
+          <li><span>&#10003;</span> Sports Type: LIFESTYLE</li>
+          <li><span>&#10003;</span> Upper Material: Mesh (Air mesh)</li>
+          <li><span>&#10003;</span> Shoe Width: Medium (B,M)</li>
+          <li><span>&#10003;</span> Upper Height: Low</li>
+          <li><span>&#10003;</span> Function: Stability</li>
+          <li><span>&#10003;</span> Outsole Material: Rubber</li>
+          <li><span>&#10003;</span> Technology: Flywire</li>
+          <li><span>&#10003;</span> Applicable Place: Outdoor Lawn</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service Section -->
+  <div class="service-container">
+    <div class="service-box">
+      <div class="service-icon">🚀</div>
+      <!-- Replace with actual icon image if needed -->
+      <div class="service-title">EXPRESS SHIPPING</div>
+      <div class="service-description">
+        Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque
+      </div>
+    </div>
+    <div class="service-box">
+      <div class="service-icon">🛡️</div>
+      <!-- Replace with actual icon image if needed -->
+      <div class="service-title">PAYMENT SECURED</div>
+      <div class="service-description">
+        Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque
+      </div>
+    </div>
+    <div class="service-box">
+      <div class="service-icon">💰</div>
+      <!-- Replace with actual icon image if needed -->
+      <div class="service-title">MONEY BACK GUARANTEE</div>
+      <div class="service-description">
+        Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque
+      </div>
+    </div>
+    <div class="service-box">
+      <div class="service-icon">🎧</div>
+      <!-- Replace with actual icon image if needed -->
+      <div class="service-title">24/7 HELP CENTER</div>
+      <div class="service-description">
+        Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque
+      </div>
+    </div>
+  </div>
+  <div class="divider-section">
+    <h2>Our Trusted Brands</h2>
+    <p>We partner with the most reliable brands to bring you the best products and services.</p>
+  </div>
+  
+  <div class="brand-section">
+    <div class="brand-item">
+    <img src="../images/logo1.png" alt="Adidas Logo" />
+  </div>
+  <div class="brand-item">
+    <img src="../images/logo1.png" alt="Adidas Logo" />
+  </div>
+  <div class="brand-item">
+    <img src="../images/logo2.png" alt="Nike Logo" />
+  </div>
+  <div class="brand-item">
+    <img src="../images/logo3.png" alt="New Balance Logo" />
+  </div>
+  <div class="brand-item">
+    <img src="../images/logo4.png" alt="Timberland Logo" />
+  </div>
+  <div class="brand-item">
+    <img src="../images/logo5.png" alt="Asics Logo" />
+  </div>
+</div>
+
+
+
+
+  <!-- Product Section -->
+  <div class="product-section">
+    <div class="product-card">
+      <img src="../images/shoe1.png" alt="Product Image" />
+    </div>
+    <div class="product-card">
+      <img src="../images/shoe2.png" alt="Product Image" />
+    </div>
+    <div class="product-card">
+      <img src="../images/shoe2.png" alt="Product Image" />
+    </div>
+    <div class="product-card">
+      <img src="../images/shoe2.png" alt="Product Image" />
+    </div>
+    <div class="product-card">
+      <img src="../images/shoe1.png" alt="Product Image" />
+    </div>
+    <div class="product-card">
+      <img src="../images/shoe1.png" alt="Product Image" />
+    </div>
+  </div>
+
+  <div id="footer"></div>
+  <script src="../js/script.js"></script>
+  <script src="../js/Home.js"></script>
+
+  <!-- Bootstrap and FontAwesome Scripts -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

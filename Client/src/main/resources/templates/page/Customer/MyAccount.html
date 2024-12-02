@@ -1,0 +1,44 @@
+<link th:href="@{/css/MyAccount.css}" rel="stylesheet">
+<div class="container">
+  <div class="dashboard-wrapper">
+    <!-- Main Content -->
+    <div class="user-content">
+      <h2 class="main-title">My Account</h2>
+      <!-- Contact Details -->
+      <h4 class="section-title">Contact Details</h4>
+      <form action="/customer/account/update-account" method="post">
+        <div class="form-wrapper">
+          <div class="form-elem">
+            <label class="form-label">Your Name</label>
+            <div class="form-input-wrapper">
+              <input type="text" name="name" class="form-control" th:value="${user.name}" />
+            </div>
+          </div>
+          <div class="form-elem">
+            <label class="form-label">Email Address</label>
+            <div class="form-input-wrapper">
+              <input type="email" name="email" class="form-control" th:value="${user.email}" />
+            </div>
+          </div>
+          <div class="form-elem">
+            <label class="form-label">Phone Number</label>
+            <div class="form-input-wrapper">
+              <input type="text" name="phoneNumber" class="form-control" th:value="${user.phoneNumber}" />
+            </div>
+          </div>
+<!--          <div class="form-elem">-->
+<!--            <label class="form-label">Password</label>-->
+<!--            <div class="form-input-wrapper">-->
+<!--              <input type="password" name="password" class="form-control" th:value="${user.password}" />-->
+<!--            </div>-->
+<!--          </div>-->
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Update</button>
+      </form>
+
+
+    </div>
+    </div>
+  </div>
+</div>
+

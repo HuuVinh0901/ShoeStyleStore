@@ -1,0 +1,213 @@
+h5 {
+    font-weight: bold;
+}
+.border {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+}
+.p-3 {
+    padding: 1rem !important;
+}
+.rounded {
+    border-radius: 5px;
+}
+.modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+.modal-title {
+    font-weight: bold;
+}
+.progress-steps {
+    border-top: 2px solid #ddd;
+    position: relative;
+}
+
+.step {
+    width: 24%;
+    position: relative;
+}
+
+.step .icon-circle {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    background-color: #ddd;
+    display: inline-block;
+    font-size: 18px;
+}
+
+.progress-steps .step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    right: -50%;
+    width: 100%;
+    height: 4px;
+    background-color: #28a745;
+    z-index: -1;
+}
+
+.step .icon-circle.bg-primary {
+    background-color: #007bff;
+}
+
+.step .icon-circle.bg-success {
+    background-color: #28a745;
+}
+
+.step .icon-circle.bg-warning {
+    background-color: #ffc107;
+}
+
+.step p {
+    margin-bottom: 0;
+}
+
+.buttons button {
+    margin-left: 10px;
+}
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.table img {
+    display: block;
+    margin: 0 auto;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.table img {
+    display: block;
+    margin: 0 auto;
+    max-width: 50px;
+}
+.sidebar {
+    min-height: 100vh;
+    position: fixed;
+    width: 16.66%;
+    background-color: #343a40; /
+}
+.sidebar .nav-link {
+    color: #fff;
+}
+.main-content {
+    margin-left: 16.66%;
+}
+
+.sidebar .nav-link.active-border {
+    border-left: 4px solid #17a2b8;
+    background-color: #495057;
+    color: #ffffff;
+}
+.styleUser{
+    margin-top: 20%;
+    color: #fff;
+}
+.styleForm{
+    width: 50%;margin: 0 auto;
+}
+
+
+
+.step.active .icon-circle {
+    background-color: green;
+}
+
+.step.active p {
+    font-weight: bold;
+    color: green;
+}
+
+.inactive {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.progress-steps {
+    border-radius: 15px; /* Bo tròn cho toàn bộ bước tiến */
+    padding: 20px;
+    background-color: #f4f4f9; /* Màu nền nhẹ */
+}
+
+.step {
+    width: 20%; /* Chia đều các bước */
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px; /* Bo tròn các bước */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tạo hiệu ứng bóng mờ cho các bước */
+    transition: all 0.3s ease;
+    border: 2px solid #ddd; /* Viền cho toàn bộ bước */
+}
+
+.step.active {
+    background-color: #e0f7fa; /* Màu nền sáng cho bước active */
+    transform: scale(1.05); /* Phóng to khi active */
+}
+
+.step.inactive {
+    opacity: 0.6; /* Giảm độ sáng cho bước không hoạt động */
+}
+
+/* Thêm viền cho icon và p */
+.icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Bo tròn vòng tròn */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    border: 2px solid #ddd; /* Viền cho vòng tròn */
+}
+
+.icon-img {
+    width: 30px; /* Kích thước icon */
+    height: 30px;
+    object-fit: contain; /* Đảm bảo icon không bị méo */
+    border-radius: 50%; /* Bo tròn ảnh */
+}
+
+.font-weight-bold {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+    border: 2px solid #ddd; /* Viền cho thẻ p */
+    padding: 5px; /* Khoảng cách giữa chữ và viền */
+    border-radius: 5px; /* Bo tròn cho viền chữ */
+}
+
+.small {
+    font-size: 0.9em;
+    color: #777;
+}
+
+@media (max-width: 768px) {
+    .step {
+        width: 45%; /* Dễ dàng hiển thị trên màn hình nhỏ */
+        margin-bottom: 10px;
+    }
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}
+
+
+img {
+    width: 100%;     height: 100%;
+    object-fit: cover;
+}
+
+
+

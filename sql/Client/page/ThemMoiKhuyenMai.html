@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Them Moi Khuyen Mai</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+
+    <style>
+      .sidebar {
+        min-height: 100vh;
+        position: fixed;
+        width: 16.6%;
+        background-color: #343a40; /
+      }
+      .sidebar .nav-link {
+        color: #fff;
+      }
+      .main-content {
+        margin-left: 16.66%;
+      }
+
+      .sidebar .nav-link.active-border {
+        border-left: 4px solid #17a2b8;
+        background-color: #495057;
+        color: #ffffff;
+      }
+      .styleUser{
+        margin-top: 50%;
+        color: #fff;
+      }
+      .styleForm{
+        width: 50%;margin: 0 auto;
+      }
+      .btn-custom {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .btn-edit {
+            background-color: #17a2b8;
+            color: #fff;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .status-active {
+            background-color: #007bff;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .status-ended {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <nav class="sidebar col-md-2 d-none d-md-block">
+          <div class="sidebar-sticky">
+            <h4 class="text-light text-center mt-4">AdminAD</h4>
+            <ul class="nav flex-column mt-3">
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Home</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Thành viên</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Bài viết</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Danh mục</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Sản phẩm</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Đơn hàng</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Quản lý kho</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Danh sách liên hệ</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Khuyến Mãi</a
+                >
+              </li>
+            </ul>
+            <div class="styleUser text-center">
+              <h6>Hồ Đức Trí Hiếu</h6>
+              <button class="btn btn-danger stylebtnDangXuat">Đăng Xuất</button>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content col-md-10 ml-sm-auto px-4">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h2>Danh Sách Khuyến Mãi</h2>
+          </div>
+
+          <!-- Search and Filter -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Tìm kiếm đợt giảm giá theo tên, mã..."
+                id="search-input"
+              />
+            </div>
+            <div class="col-md-6 d-flex align-items-center">
+              <label class="mr-3">Trạng thái:</label>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="status"
+                  id="status-all"
+                  value="all"
+                  checked
+                />
+                <label class="form-check-label" for="status-all">Tất cả</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="status"
+                  id="status-notyet"
+                  value="notyet"
+                />
+                <label class="form-check-label" for="status-notyet"
+                  >Chưa bắt đầu</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="status"
+                  id="status-active"
+                  value="active"
+                />
+                <label class="form-check-label" for="status-active"
+                  >Đang diễn ra</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="status"
+                  id="status-ended"
+                  value="ended"
+                />
+                <label class="form-check-label" for="status-ended"
+                  >Đã kết thúc</label
+                >
+              </div>
+              <button class="btn btn-warning btn-custom">
+                + Thêm đợt giảm giá
+              </button>
+            </div>
+          </div>
+
+          <div id="voucher-list">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Tên</th>
+                  <th>Mô tả</th>
+                  <th>Giảm giá</th>
+                  <th>Trạng thái</th>
+                  <th>Thời gian</th>
+                </tr>
+              </thead>
+              <tbody id="voucher-list-body">
+                <!-- Dữ liệu voucher sẽ được thêm vào đây -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <nav>
+            <ul class="pagination justify-content-end">
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+            </ul>
+          </nav>
+        </main>
+        <main class="main-content col-md-10 ml-sm-auto px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h2>Thêm Mã Khuyến Mãi</h2>
+          </div>
+        
+          <!-- Form Thêm Mã Khuyến Mãi -->
+          <form id="voucher-form">
+            <div class="row">
+              <!-- Tên phiếu giảm giá -->
+              <div class="form-group col-md-6">
+                <label for="tenPhieuGiamGia">* Tên phiếu giảm giá</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="tenPhieuGiamGia"
+                  placeholder="Nhập tên phiếu giảm giá"
+                  required
+                />
+              </div>
+            </div>
+        
+            <div class="row">
+              <!-- Kiểu giảm giá (Percentage hoặc Flat) -->
+              <div class="form-group col-md-6">
+                <label>* Kiểu giảm giá</label><br>
+                <div class="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    id="discount-percentage"
+                    name="discount-type"
+                    class="form-check-input"
+                    value="Percentage"
+                    checked
+                  />
+                  <label class="form-check-label" for="discount-percentage">Phần trăm</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    id="discount-flat"
+                    name="discount-type"
+                    class="form-check-input"
+                    value="Flat"
+                  />
+                  <label class="form-check-label" for="discount-flat">Giảm giá tiền</label>
+                </div>
+              </div>
+            </div>
+        
+            <div class="row">
+              <!-- Phần trăm giảm -->
+              <div class="form-group col-md-6" id="percentage-container">
+                <label for="phanTramGiam">Giảm giá</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="phanTramGiam"
+                    placeholder="giảm giá"
+                    required
+                  />
+                  
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="giaTriDonToiThieu">* Giá trị đơn tối thiểu</label>
+                <div class="input-group">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="giaTriDonToiThieu"
+                    placeholder="Nhập giá trị đơn tối thiểu"
+                    required
+                  />
+                 
+                </div>
+              </div>
+            </div>
+           
+            
+        
+            <div class="row">
+              <!-- Ngày bắt đầu -->
+              <div class="form-group col-md-6">
+                <label for="ngayBatDau">* Ngày bắt đầu</label>
+                <div class="input-group">
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    id="ngayBatDau"
+                    required
+                  />
+                </div>
+              </div>
+        
+              <!-- Ngày kết thúc -->
+              <div class="form-group col-md-6">
+                <label for="ngayKetThuc">* Ngày kết thúc</label>
+                <div class="input-group">
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    id="ngayKetThuc"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+        
+            <!-- Nút hành động -->
+            <div class="form-group text-right">
+              <button type="reset" class="btn btn-secondary">Làm mới</button>
+              <button type="submit" class="btn btn-success">Lưu</button>
+            </div>
+          </form>
+        </main>
+        
+      </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      function setActive(element) {
+        let menuItems = document.querySelectorAll(".sidebar .nav-link");
+        menuItems.forEach((item) => item.classList.remove("active-border"));
+        element.classList.add("active-border");
+      }
+    </script>
+    <script type="module" src="../js/XuLyThemMoiKhuyenMai.js"></script>
+  </body>
+</html>

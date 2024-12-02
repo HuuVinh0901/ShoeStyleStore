@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý bài đánh giá</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            position: fixed;
+            width: 16.66%;
+            background-color: #343a40;
+        }
+        .sidebar .nav-link {
+            color: #fff;
+            cursor: pointer;
+        }
+        .sidebar .nav-link.active-border {
+            border-left: 4px solid #17a2b8; 
+            background-color: #495057;
+            color: #ffffff; 
+        }
+        .main-content {
+            margin-left: 16.66%;
+            z-index: 1;
+        }
+        .styleUser {
+            margin-top: 50%;
+            color: #fff;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1050;
+        }
+        .modal-dialog {
+            background-color: white;
+            border-radius: 5px;
+            width: 50%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="sidebar col-md-2 d-none d-md-block">
+                <div class="sidebar-sticky">
+                    <h4 class="text-light text-center mt-4">AdminAD</h4>
+                    <ul class="nav flex-column mt-3">
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-light" href="#" onclick="setActive(this)">Home</a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-light" href="#" onclick="setActive(this)">Thành viên</a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-light" href="#" onclick="setActive(this)">Quản lý bài đánh giá</a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-light" href="#" onclick="setActive(this)">Danh mục</a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-light" href="http://127.0.0.1:5500/page/QuanLySanPham.html" onclick="setActive(this)">Sản phẩm</a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-light" href="#" onclick="setActive(this)">Đơn hàng</a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-light" href="#" onclick="setActive(this)">Quản lý kho</a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-light" href="#" onclick="setActive(this)">Danh sách liên hệ</a>
+                        </li>
+                    </ul>
+                    <div class="styleUser text-center">
+                        <h6>Đào Thanh Phú</h6>
+                        <button class="btn btn-danger stylebtnDangXuat">Đăng Xuất</button>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Main Content -->
+            <div class="main-content col-md-10">
+                <h2 class="mt-4">Quản lý bài đánh giá</h2>
+                <!-- Danh sách bài đánh giá -->
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Ngày tạo</th>
+                                <th>Sản phẩm</th>
+                                <th>Nội dung</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Nguyễn Văn A</td>
+                                <td>2024-11-15</td>
+                                <td>Điện thoại XYZ</td>
+                                <td>Sản phẩm tốt, giá cả hợp lý, màn hình sắc nét.</td>
+                                <td>
+                                    <button class="btn btn-info btn-sm" onclick="showEditReviewForm(1, 'Nguyễn Văn A', '2024-11-15', 'Điện thoại XYZ', 'Sản phẩm tốt, giá cả hợp lý, màn hình sắc nét.')">Edit</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteReview(1)">Trash</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Trần Thị B</td>
+                                <td>2024-11-14</td>
+                                <td>Laptop ABC</td>
+                                <td>Cấu hình ổn, nhưng thời gian sử dụng pin ngắn.</td>
+                                <td>
+                                    <button class="btn btn-info btn-sm" onclick="showEditReviewForm(2, 'Trần Thị B', '2024-11-14', 'Laptop ABC', 'Cấu hình ổn, nhưng thời gian sử dụng pin ngắn.')">Edit</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteReview(2)">Trash</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Đánh dấu menu đang hoạt động
+        function setActive(element) {
+            let menuItems = document.querySelectorAll('.sidebar .nav-link');
+            menuItems.forEach(item => item.classList.remove('active-border')); // Xóa lớp active-border khỏi tất cả các mục
+            element.classList.add('active-border'); // Thêm lớp active-border cho mục được chọn
+        }
+
+        // Chỉnh sửa bài đánh giá
+        function showEditReviewForm(id, name, date, product, content) {
+            alert('Chỉnh sửa bài đánh giá: ' + id + ', Tên người đánh giá: ' + name);
+        }
+
+        // Xóa bài đánh giá
+        function deleteReview(id) {
+            alert('Xóa bài đánh giá: ' + id);
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

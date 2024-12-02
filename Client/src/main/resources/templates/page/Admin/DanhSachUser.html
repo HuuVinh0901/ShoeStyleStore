@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Danh Sách Người Dùng</title>
+  <link
+          rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  />
+  <style>
+    .sidebar {
+      min-height: 100vh;
+      position: fixed;
+      width: 16.66%;
+      background-color: #343a40; /
+    }
+    #edit-user-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border: 1px solid #ccc;
+      padding: 20px;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .sidebar .nav-link {
+      color: #fff;
+    }
+    .main-content {
+      margin-left: 16.66%;
+    }
+
+    .sidebar .nav-link.active-border {
+      border-left: 4px solid #17a2b8;
+      background-color: #495057;
+      color: #ffffff;
+    }
+    .styleUser{
+      margin-top: 20%;
+      color: #fff;
+    }
+    .styleTagA{
+      text-decoration: none;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <nav class="sidebar col-md-2 d-none d-md-block">
+      <div class="sidebar-sticky">
+        <h4 class="text-light text-center mt-4">AdminAD</h4>
+        <ul class="nav flex-column mt-3">
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/admin/orders/Home" onclick="setActive(this)">Home</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/admin/users/list" onclick="setActive(this)">Thành viên</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/page/admin/reviews" onclick="setActive(this)">Đánh giá</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/page/admin/products" onclick="setActive(this)">Sản phẩm</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/admin/orders/view" onclick="setActive(this)">Đơn hàng</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/admin/vouchers/view" onclick="setActive(this)">Khuyến Mãi</a>
+          </li>
+        </ul>
+        <div class="styleUser text-center" style="margin-top: 110%">
+          <h6 id="username-display"></h6>
+          <button class="btn btn-danger stylebtnDangXuat" onclick="logout()">Đăng Xuất</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content col-md-10 ml-sm-auto px-4">
+      <div
+              class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h2>Danh sách thành viên</h2>
+      </div>
+      <form class="d-flex align-items-center mb-3">
+        <button class="btn btn-success mb-3"><a class="styleTagA" href="/admin/users/add" id="user-form">Thêm Mới</a></button>
+
+        <!-- Vai trò -->
+        <div class="d-flex align-items-center ml-3">
+          <label for="role-search" class="form-label mb-0 mr-2">Vai trò</label>
+          <select name="role-search" class="form-control form-control-sm" id="role-search" style="width: 120px;">
+            <option value="">Tất cả</option>
+            <option value="admin">Admin</option>
+            <option value="customer">Customer</option>
+          </select>
+        </div>
+        <div class="d-flex align-items-center ml-3">
+          <label for="username-search" class="form-label mb-0 mr-2">UserName</label>
+          <input id="username-search" name="username-search" placeholder="Tìm theo username" style="width: 150px;" class="form-control form-control-sm">
+        </div>
+        <!-- Trạng thái -->
+        <div class="d-flex align-items-center ml-3">
+          <label for="status-search" class="form-label mb-0 mr-2">Trạng thái</label>
+          <select name="status-search" class="form-control form-control-sm" id="status-search" style="width: 120px;">
+            <option value="">Tất cả</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-sm ml-3" id='search-button' >Tìm kiếm</button>
+      </form>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead class="thead-light">
+          <tr>
+            <th>ID</th>
+            <th>Họ và tên</th>
+            <th>UserName</th>
+            <th>Password</th>
+            <th>CI</th>
+            <th>Vai trò</th>
+            <th>Active</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody  id="user-list">
+
+          </tbody>
+        </table>
+        <!-- Form chỉnh sửa (ẩn ban đầu) -->
+        <div id="edit-user-modal" style="display: none;">
+          <div class="modal-content">
+            <h3>Chỉnh sửa thông tin người dùng</h3>
+            <form id="edit-user-form">
+              <input type="hidden" id="edit-user-id">
+
+              <!-- CI -->
+              <div>
+                <label for="edit-ci">CI:</label>
+                <input type="text" id="edit-ci" required>
+              </div>
+
+              <!-- Trạng thái -->
+              <div>
+                <label for="edit-status">Trạng thái:</label>
+                <select id="edit-status" required>
+                  <option value="Active">Active</option>
+                  <option value="InActive">InActive</option>
+                </select>
+              </div>
+
+              <!-- Vai trò -->
+              <div>
+                <label for="edit-role">Vai trò:</label>
+                <select id="edit-role" required>
+                  <option value="1">Admin</option>
+                  <option value="2">Customer</option>
+                </select>
+              </div>
+
+              <!-- Submit and Cancel buttons -->
+              <button type="submit">Lưu</button>
+              <button type="button" onclick="closeEditModal()">Hủy</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  const apiBaseUrl = 'http://localhost:8080/auth/users'; // Base URL API
+  const apiSearchUrl = `${apiBaseUrl}/search`;
+  const  apiUrl= `${apiBaseUrl}/list`; // Endpoint cho danh sách người dùng
+
+  // Load toàn bộ danh sách người dùng
+  async function loadUserList() {
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' },
+      });
+
+      if (response.ok) {
+        const users = await response.json();
+        renderUserList(users);
+      } else {
+        console.error(`Lỗi tải danh sách: ${response.status}`);
+        alert('Không thể tải danh sách người dùng từ server.');
+      }
+    } catch (error) {
+      console.error('Lỗi khi tải danh sách người dùng:', error);
+      alert('Có lỗi xảy ra khi tải danh sách người dùng.');
+    }
+  }
+
+  // Render danh sách người dùng ra giao diện
+  function renderUserList(users) {
+    const userListContainer = document.getElementById('user-list');
+    if (!userListContainer) {
+      console.error("Phần tử với ID 'user-list' không tồn tại trong DOM.");
+      return;
+    }
+
+    userListContainer.innerHTML = '';
+    if (!users || users.length === 0) {
+      userListContainer.innerHTML = `
+            <tr>
+                <td colspan="8" class="text-center text-muted">Không có người dùng nào được tìm thấy.</td>
+            </tr>
+        `;
+      return;
+    }
+
+    users.forEach(user => {
+      const userElement = document.createElement('tr');
+      userElement.innerHTML = `
+            <td>${user.userID || 'N/A'}</td>
+            <td>${user.name || 'N/A'}</td>
+            <td>${user.userName || 'N/A'}</td>
+            <td>${user.password ? '********' : 'N/A'}</td>
+            <td>${user.ci || 'N/A'}</td>
+            <td>${user.role?.name || 'Unknown'}</td>
+            <td>${user.status || 'N/A'}</td>
+            <td>
+                <button onclick="confirmEdit(${user.userID})" class="btn btn-warning btn-sm">Edit</button>
+                <button onclick="deleteUser(${user.userID})" class="btn btn-danger btn-sm">Delete</button>
+            </td>
+        `;
+      userListContainer.appendChild(userElement);
+    });
+  }
+
+  // Xóa user
+  async function deleteUser(userID) {
+    const confirmation = confirm("Bạn có chắc chắn muốn xóa user này?");
+    if (!confirmation) return;
+
+    try {
+      const response = await fetch(`${apiBaseUrl}/${userID}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        alert('User đã được xóa!');
+        loadUserList();
+      } else {
+        alert('Xóa User thất bại!');
+      }
+    } catch (err) {
+      console.error('Lỗi khi xóa user:', err);
+      alert('Có lỗi xảy ra khi xóa user!');
+    }
+  }
+
+  // Tải danh sách người dùng khi trang được tải
+  document.addEventListener('DOMContentLoaded', loadUserList);
+
+  // Chuyển đến trang chỉnh sửa
+  function confirmEdit(userId) {
+    const isConfirmed = confirm("Bạn có chắc chắn muốn chỉnh sửa user này?");
+    if (isConfirmed) {
+      window.location.href = `http://localhost:3000/admin/users/edit/${userId}`;
+    }
+  }
+  // Tìm kiếm người dùng
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchButton = document.getElementById('search-button');
+
+    if (!searchButton) {
+      console.error("Phần tử với ID 'search-button' không tồn tại trong DOM.");
+      return;
+    }
+
+    // Tìm kiếm người dùng
+    searchButton.addEventListener('click', async function (event) {
+      event.preventDefault();
+
+      const query = {
+        name: document.querySelector('input[name="username-search"]').value.trim(),
+        roleName: document.getElementById('role-search').value.trim(),
+        status: document.getElementById('status-search').value.trim()
+      };
+
+      const apiUrlSearch = `${apiSearchUrl}?name=${encodeURIComponent(query.name)}&roleName=${encodeURIComponent(query.roleName)}&status=${encodeURIComponent(query.status)}`;
+
+      try {
+        const response = await fetch(apiUrlSearch, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          const users = await response.json();
+          renderUserList(users);
+        } else {
+          const errorMessage = await response.text();
+          console.error(`Lỗi tìm kiếm: ${response.status} - ${errorMessage}`);
+          alert('Lỗi khi tìm kiếm người dùng.');
+        }
+      } catch (error) {
+        console.error('Có lỗi khi tìm kiếm người dùng:', error);
+        alert('Không thể tìm kiếm người dùng. Vui lòng thử lại.');
+      }
+    });
+  });
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const username = sessionStorage.getItem("username"); // Lấy username từ Session Storage
+    if (username) {
+      console.log("Username found in Session Storage:", username);
+      document.getElementById("username-display").innerText = username; // Hiển thị lại
+    } else {
+      console.log("No username found. Redirecting to login page.");
+      window.location.href = "/login"; // Chuyển hướng về trang đăng nhập nếu không có username
+    }
+  });
+
+
+  function logout() {
+    sessionStorage.removeItem("username"); // Xóa username khỏi Session Storage
+    console.log("Username removed from Session Storage");
+    window.location.href = "/login"; // Chuyển hướng về trang đăng nhập
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quan Ly DH</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* Sidebar styling */
+      .sidebar {
+        min-height: 100vh;
+        position: fixed;
+        width: 16.66%;
+        background-color: #343a40;
+      }
+      .sidebar .nav-link {
+        color: #fff;
+      }
+      .sidebar .nav-link.active-border {
+        border-left: 4px solid #17a2b8;
+        background-color: #495057;
+        color: #ffffff;
+      }
+      .styleUser {
+        margin-top: 50%;
+        color: #fff;
+      }
+      .styleForm {
+        width: 50%;
+        margin: 0 auto;
+      }
+
+      /* Main content area */
+      .main-content {
+        margin-left: 16.66%;
+        padding-top: 20px;
+      }
+
+      /* Dashboard card styles */
+      .dashboard-card {
+        color: white;
+        font-weight: bold;
+      }
+      .bg-blue {
+        background-color: #17a2b8;
+      }
+      .bg-green {
+        background-color: #28a745;
+      }
+      .bg-orange {
+        background-color: #fd7e14;
+      }
+      .bg-red {
+        background-color: #dc3545;
+      }
+      .card .icon {
+        font-size: 40px;
+        opacity: 0.3;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+      .section-title {
+        font-weight: bold;
+        margin-top: 20px;
+      }
+      .btn-yellow_GGia {
+        background-color: #ffc107; /* Vibrant Yellow */
+        color: #000; /* Black text */
+        border: none;
+      }
+      .btn-yellow_GGia:hover {
+        background-color: #e0a800; /* Slightly darker yellow for hover effect */
+      }
+      .btn_border {
+        border: 1px solid rgb(158, 153, 153);
+      }
+      .form-check-input {
+        width: 2em;
+        height: 1em;
+        background-color: #ccc;
+        border-radius: 1em;
+        position: relative;
+        appearance: none;
+        outline: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .form-check-input:checked {
+        background-color: #0d6efd;
+      }
+
+      .form-check-input::before {
+        content: "";
+        position: absolute;
+        top: 0.1em;
+        left: 0.1em;
+        width: 0.8em;
+        height: 0.8em;
+        background-color: white;
+        border-radius: 50%;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .form-check-input:checked::before {
+        transform: translateX(1em);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <nav class="sidebar col-md-2 d-none d-md-block">
+          <div class="sidebar-sticky">
+            <h4 class="text-light text-center mt-4">AdminAD</h4>
+            <ul class="nav flex-column mt-3">
+              <li class="nav-item mt-3">
+                  <a class="nav-link text-light" href="#" onclick="setActive(this)">Home</a>
+              </li>
+              <li class="nav-item mt-3">
+                  <a class="nav-link text-light" href="#" onclick="setActive(this)">Thành viên</a>
+              </li>
+              <li class="nav-item mt-3">
+                  <a class="nav-link text-light" href="#" onclick="setActive(this)">Bài viết</a>
+              </li>
+              <li class="nav-item mt-3">
+                  <a class="nav-link text-light" href="#" onclick="setActive(this)">Danh mục</a>
+              </li>
+              <li class="nav-item mt-3">
+                  <a class="nav-link text-light" href="#" onclick="setActive(this)">Sản phẩm</a>
+              </li>
+              <li class="nav-item mt-3">
+                  <a class="nav-link text-light" href="#" onclick="setActive(this)">Đơn hàng</a>
+              </li>
+              <li class="nav-item mt-3">
+                  <a class="nav-link text-light" href="#" onclick="setActive(this)">Quản lý kho</a>
+              </li>
+              <li class="nav-item mt-3">
+                  <a class="nav-link text-light" href="#" onclick="setActive(this)">Danh sách liên hệ</a>
+              </li>
+              <li class="nav-item mt-3">
+                <a class="nav-link text-light" href="#" onclick="setActive(this)">Khuyến Mãi</a>
+            </li>
+          </ul>
+          <div class="styleUser text-center">
+              <h6>Hồ Đức Trí Hiếu</h6>
+              <button class="btn btn-danger stylebtnDangXuat">Đăng Xuất</button>
+          </div>
+          </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content col-md-10">
+          <div class="row">
+            <div class="container mt-2">
+              <!-- Header and Action Buttons -->
+              <h3>Quản lý đơn hàng</h3>
+              <ul class="nav nav-tabs mt-3 mb-3 order-id-nav">
+                <li class="nav-item">
+                  <a
+                    class="nav-link active"
+                    href="#"
+                    onclick="showSection('createOrderSection')"
+                    >Tạo mới</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    href="#"
+                    onclick="showSection('invoiceListSection')"
+                    >Danh sách hóa đơn</a
+                  >
+                </li>
+              </ul>
+              <div id="createOrderSection">
+                <button class="btn btn-warning mb-3">Tạo mới đơn hàng</button>
+
+                <!-- Order ID Tabs -->
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#">HD15030032</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">HD15030028</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">HD15030012</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">HD15030006</a>
+                  </li>
+                </ul>
+
+                <!-- Order Details Section -->
+                <div class="mt-3">
+                  <h5>Đơn hàng HD15030032</h5>
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                  >
+                    <h6>Giỏ hàng</h6>
+                    <div>
+                      <button
+                        type="button"
+                        class="btn btn-warning"
+                        data-bs-toggle="modal"
+                        data-bs-target="#productModal"
+                      >
+                        Thêm sản phẩm
+                      </button>
+                      <button class="btn btn-success">QR Code sản phẩm</button>
+                    </div>
+                  </div>
+
+                  <!-- Cart Table -->
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row font-weight-bold mb-3">
+                        <div class="col-1">#</div>
+                        <div class="col-2">Ảnh</div>
+                        <div class="col-4">Sản phẩm</div>
+                        <div class="col-2">Số lượng</div>
+                        <div class="col-2">Tổng tiền</div>
+                        <div class="col-1">Hành động</div>
+                      </div>
+
+                      <!-- Cart Item -->
+                      <div class="cart-item row align-items-center">
+                        <div class="col-1">1</div>
+                        <div class="col-2">
+                          <img
+                            src="https://via.placeholder.com/80"
+                            alt="Product Image"
+                          />
+                        </div>
+                        <div class="col-4">
+                          <p class="mb-0">
+                            Giày MLB Chunky Wide New York [Đen - 40]
+                          </p>
+                          <span>WYORKDEN40CAOSU</span><br />
+                          <span>Đơn giá: 100,000 đ</span>
+                        </div>
+                        <div class="col-2">
+                          <input
+                            type="number"
+                            class="form-control quantity-input"
+                            value="2"
+                          />
+                        </div>
+                        <div class="col-2 total-price">100,000 đ</div>
+                        <div class="col-1">
+                          <button class="btn btn-danger">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Pagination -->
+                  <div
+                    class="d-flex justify-content-between align-items-center mt-3"
+                  >
+                    <span>1 / page</span>
+                    <nav>
+                      <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item disabled">
+                          <a class="page-link" href="#">Previous</a>
+                        </li>
+                        <li class="page-item active">
+                          <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">Next</a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+
+                <!-- Customer Information Section -->
+                <div class="card mb-4 mt-4">
+                  <div class="card-header"></div>
+                  <div class="card-body d-flex justify-content-between">
+                    <!-- Phần thông tin khách hàng -->
+                    <div
+                      class="d-flex flex-column justify-content-between"
+                      style="width: 48%"
+                    >
+                      <div>
+                        <p><strong>Tên khách hàng:</strong> Nguyễn Anh Dũng</p>
+                        <p><strong>Email:</strong> DungNA29@gmail.com</p>
+                        <p><strong>Số điện thoại:</strong> 0387811111</p>
+                      </div>
+                      <div>
+                        <button
+                          class="btn btn-yellow"
+                          style="background-color: #ffc107"
+                        >
+                          Thêm mới KH
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Phần danh sách khách hàng và tìm kiếm -->
+                    <div class="d-flex flex-column" style="width: 48%">
+                      <!-- Input tìm kiếm -->
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Tìm kiếm khách hàng"
+                          aria-label="Tìm kiếm khách hàng"
+                        />
+                        <button class="btn btn-outline-secondary" type="button">
+                          Tìm
+                        </button>
+                      </div>
+
+                      <!-- Danh sách khách hàng -->
+                      <div
+                        class="customer-list border p-3"
+                        style="max-height: 200px; overflow-y: auto"
+                      >
+                        <p>Nguyễn Văn A</p>
+                        <p>Trần Thị B</p>
+                        <p>Phạm Công C</p>
+                        <p>Lê Thanh D</p>
+                        <!-- Thêm nhiều khách hàng nếu cần -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Order Details Section -->
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <h5 class="header-text">Giỏ hàng</h5>
+                  </div>
+                  <div class="card-body">
+                    <table class="table table-borderless">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Ảnh</th>
+                          <th>Sản phẩm</th>
+                          <th>Số lượng</th>
+                          <th>Tổng tiền</th>
+                          <th>Hành động</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>
+                            <img
+                              src="path/to/image.png"
+                              class="product-image"
+                              alt="Product Image"
+                            />
+                          </td>
+                          <td>Giày MLB Chunky Wide New York [Đen - 40]</td>
+                          <td>
+                            <input
+                              type="number"
+                              class="form-control"
+                              value="2"
+                              style="width: 70px"
+                            />
+                          </td>
+                          <td>100,000 đ</td>
+                          <td><button class="btn btn-danger">Xóa</button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="text-right">
+                      <button class="btn btn-yellow">Thêm sản phẩm</button>
+                      <button class="btn btn-success">QR Code sản phẩm</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Payment Information Section -->
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="header-text">Thông tin thanh toán</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Họ và tên</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="Phong"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label>Số điện thoại</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="0387880000"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label>Địa chỉ cụ thể</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="Số 8"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <div class="d-flex justify-content-between mt-2">
+                          <button
+                            class="btn btn-yellow_GGia"
+                            data-toggle="modal"
+                            data-target="#voucherModal"
+                          >
+                            Phiếu giảm giá
+                          </button>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                          <span>Tạm Tính: </span>
+                          <span>38,501 đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                          <span>Phí vận chuyển (tạm tính):</span>
+                          <span>38,501 đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <span>Giảm giá:</span>
+                          <span>0 đ</span>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between">
+                          <h5>Tổng tiền:</h5>
+                          <h5 class="text-danger">238,501 đ</h5>
+                        </div>
+                        <hr />
+                        <h6>Chọn phương thức thanh toán:</h6>
+                        <div class="btn-group d-flex" role="group">
+                          <button class="btn btn-yellow btn_border mr-2">
+                            <img
+                              style="width: 50px; height: 50px"
+                              src="https://png.pngtree.com/png-clipart/20200224/original/pngtree-pack-cash-icon-cartoon-style-png-image_5208194.jpg"
+                              alt="Google Pay"
+                            />
+                            Tiền mặt
+                          </button>
+                          <button class="btn btn-black btn_border ml-2">
+                            <img
+                              style="width: 50px; height: 50px"
+                              src="https://vinadesign.vn/uploads/images/2023/05/vnpay-logo-vinadesign-25-12-57-55.jpg"
+                              alt="Google Pay"
+                            />Chuyển khoản
+                          </button>
+                        </div>
+                        <div class="mt-3">
+                          <button
+                            style="width: 100%"
+                            class="btn btn_border btn-yellow_GGia"
+                            id="createInvoiceButton"
+                          >
+                            Tạo hóa đơn
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Invoice List Section (Hidden by Default) -->
+              <div id="invoiceListSection" style="display: none">
+                <h5>Danh sách hóa đơn</h5>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Mã hóa đơn</th>
+                      <th>Ngày tạo</th>
+                      <th>Khách hàng</th>
+                      <th>Tổng tiền</th>
+                      <th>Trạng thái</th>
+                      <th>Hành động</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>HD001</td>
+                      <td>2023-10-10</td>
+                      <td>Nguyễn Văn A</td>
+                      <td>1,000,000 đ</td>
+                      <td>Hoàn tất</td>
+                      <td>
+                        <button class="btn btn-primary btn-sm">Xem</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>HD002</td>
+                      <td>2023-10-12</td>
+                      <td>Trần Thị B</td>
+                      <td>2,500,000 đ</td>
+                      <td>Chưa thanh toán</td>
+                      <td>
+                        <button class="btn btn-primary btn-sm">Xem</button>
+                      </td>
+                    </tr>
+                    <!-- Add more invoice rows as needed -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="voucherModal"
+      tabindex="-1"
+      aria-labelledby="voucherModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="voucherModalLabel">
+              Danh sách phiếu giảm giá
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <ul class="list-group">
+              <li class="list-group-item">Voucher 1 - 10% giảm giá</li>
+              <li class="list-group-item">Voucher 2 - Miễn phí vận chuyển</li>
+              <li class="list-group-item">
+                Voucher 3 - Giảm 50,000 đ cho đơn từ 500,000 đ
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Đóng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Danh Sach San Pham -->
+    <div
+      class="modal fade"
+      id="productModal"
+      tabindex="-1"
+      aria-labelledby="productModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h5 class="modal-title" id="productModalLabel">
+              Danh sách sản phẩm
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- Modal Body -->
+          <div class="modal-body">
+            <!-- Bộ lọc tìm kiếm -->
+            <div class="row mb-3">
+              <div class="col-md-5">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Tìm kiếm sản phẩm theo tên"
+                />
+              </div>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <button class="btn btn-danger">Làm mới</button>
+              <button class="btn btn-warning">Tìm kiếm</button>
+            </div>
+
+            <!-- Bảng danh sách sản phẩm -->
+            <table class="table table-bordered align-middle">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Hình ảnh</th>
+                  <th>Sản phẩm</th>
+                  <th>Số lượng</th>
+                  <th>Đơn giá</th>
+                  <th>Branch</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Sản phẩm 1 -->
+                <tr>
+                  <td>1</td>
+                  <td>
+                    <img
+                      src="https://via.placeholder.com/100"
+                      alt="Giày trắng"
+                      class="img-fluid rounded"
+                    />
+                  </td>
+                  <td>
+                    <div>
+                      <p>Giày MLB Chunky Wide New York [Trắng - 39]</p>
+                      <small>Màu: Trắng - Kích cỡ: 39</small><br />
+                      <small>Branch: Nike</small><br />
+                      <span class="badge bg-success">Đang kinh doanh</span>
+                    </div>
+                  </td>
+                  <td>18</td>
+                  <td>
+                    <div>
+                      <p class="mb-0 text-danger">135,000 đ</p>
+                      <small><s>150,000 đ</s></small>
+                    </div>
+                  </td>
+                  <td>Nike</td>
+                  <td>
+                    <button
+                      class="btn btn-warning"
+                      data-toggle="modal"
+                      data-target="#confirmModal"
+                    >
+                      Chọn
+                    </button>
+                  </td>
+                </tr>
+                <!-- Sản phẩm 2 -->
+                <tr>
+                  <td>2</td>
+                  <td>
+                    <img
+                      src="https://via.placeholder.com/100"
+                      alt="Giày đen"
+                      class="img-fluid rounded"
+                    />
+                  </td>
+                  <td>
+                    <div>
+                      <p>Giày MLB Chunky Wide New York [Đen - 40]</p>
+                      <small>Màu: Đen - Kích cỡ: 40</small><br />
+                      <small>Branch: nike</small>
+                    </div>
+                  </td>
+                  <td>10</td>
+                  <td>
+                    <div>
+                      <p class="mb-0 text-danger">100,000 đ</p>
+                    </div>
+                  </td>
+                  <td>nike</td>
+                  <td>
+                    <button
+                      class="btn btn-warning"
+                      data-toggle="modal"
+                      data-target="#confirmModal"
+                    >
+                      Chọn
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>
+                    <img
+                      src="https://via.placeholder.com/100"
+                      alt="Giày đen"
+                      class="img-fluid rounded"
+                    />
+                  </td>
+                  <td>
+                    <div>
+                      <p>Giày MLB Chunky Wide New York [Đen - 40]</p>
+                      <small>Màu: Đen - Kích cỡ: 40</small><br />
+                      <small>Loại đế: Cao su</small>
+                    </div>
+                  </td>
+                  <td>10</td>
+                  <td>
+                    <div>
+                      <p class="mb-0 text-danger">100,000 đ</p>
+                    </div>
+                  </td>
+                  <td>Cao su</td>
+                  <td><button class="btn btn-warning">Chọn</button></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>
+                    <img
+                      src="https://via.placeholder.com/100"
+                      alt="Giày đen"
+                      class="img-fluid rounded"
+                    />
+                  </td>
+                  <td>
+                    <div>
+                      <p>Giày MLB Chunky Wide New York [Đen - 40]</p>
+                      <small>Màu: Đen - Kích cỡ: 40</small><br />
+                      <small>Loại đế: Cao su</small>
+                    </div>
+                  </td>
+                  <td>10</td>
+                  <td>
+                    <div>
+                      <p class="mb-0 text-danger">100,000 đ</p>
+                    </div>
+                  </td>
+                  <td>Cao su</td>
+                  <td><button class="btn btn-warning">Chọn</button></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>
+                    <img
+                      src="https://via.placeholder.com/100"
+                      alt="Giày đen"
+                      class="img-fluid rounded"
+                    />
+                  </td>
+                  <td>
+                    <div>
+                      <p>Giày MLB Chunky Wide New York [Đen - 40]</p>
+                      <small>Màu: Đen - Kích cỡ: 40</small><br />
+                      <small>Loại đế: Cao su</small>
+                    </div>
+                  </td>
+                  <td>10</td>
+                  <td>
+                    <div>
+                      <p class="mb-0 text-danger">100,000 đ</p>
+                    </div>
+                  </td>
+                  <td>Cao su</td>
+                  <td><button class="btn btn-warning">Chọn</button></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>
+                    <img
+                      src="https://via.placeholder.com/100"
+                      alt="Giày đen"
+                      class="img-fluid rounded"
+                    />
+                  </td>
+                  <td>
+                    <div>
+                      <p>Giày MLB Chunky Wide New York [Đen - 40]</p>
+                      <small>Màu: Đen - Kích cỡ: 40</small><br />
+                      <small>Loại đế: Cao su</small>
+                    </div>
+                  </td>
+                  <td>10</td>
+                  <td>
+                    <div>
+                      <p class="mb-0 text-danger">100,000 đ</p>
+                    </div>
+                  </td>
+                  <td>Cao su</td>
+                  <td><button class="btn btn-warning">Chọn</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal xác nhận -->
+    <div
+      class="modal fade"
+      id="confirmModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Xác nhận lựa chọn
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">Bạn có chắc chắn muốn chọn không?</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Hủy
+            </button>
+            <button type="button" class="btn btn-primary" id="confirmButton">
+              Chọn
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const dropdownItems = document.querySelectorAll(".dropdown-item");
+      const inputField = document.querySelector(".form-control");
+
+      dropdownItems.forEach((item) => {
+        item.addEventListener("click", (e) => {
+          e.preventDefault();
+          inputField.value = item.textContent; // Gán giá trị vào input
+        });
+      });
+      function showSection(sectionId) {
+        // Hide both sections
+        document.getElementById("createOrderSection").style.display = "none";
+        document.getElementById("invoiceListSection").style.display = "none";
+
+        // Show the selected section
+        document.getElementById(sectionId).style.display = "block";
+
+        // Update active tab styling
+        document
+          .querySelectorAll(".nav-link")
+          .forEach((link) => link.classList.remove("active"));
+        event.target.classList.add("active");
+      }
+    </script>
+    <script>
+      // Xử lý sự kiện khi nhấn nút "Chọn" trong modal
+      document
+        .getElementById("confirmButton")
+        .addEventListener("click", function () {
+          alert("Bạn đã chọn!");
+          $("#confirmModal").modal("hide"); // Đóng modal sau khi xác nhận
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

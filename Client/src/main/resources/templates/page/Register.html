@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/css/Login.css">
+</head>
+
+<body>
+<div class="signup-container">
+    <div class="login-box">
+        <div class="logo">
+            <img th:src="@{/images/misc/background.png}" alt="Logo">
+        </div>
+        <h2>Create Account</h2>
+        <form action="/register/auth" method="POST">
+            <div class="textbox">
+                <input type="text" placeholder="Username" name="name" required>
+            </div>
+            <div class="textbox">
+                <input type="email" placeholder="Email" name="email" required>
+            </div>
+            <div class="textbox">
+                <input type="tel" placeholder="Phone Number" name="phoneNumber" required>
+            </div>
+            <div class="textbox">
+                <input type="password" placeholder="Password" name="password" required>
+            </div>
+            <input type="submit" value="Register" class="btn">
+            <div class="footer-links">
+                <a href="/login">Already have an account? Login</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+</html>

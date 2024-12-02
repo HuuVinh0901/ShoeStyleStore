@@ -1,0 +1,120 @@
+/* Sidebar styling */
+.sidebar {
+    min-height: 100vh;
+    position: fixed;
+    width: 16.66%;
+    background-color: #343a40;
+}
+.sidebar .nav-link {
+    color: #fff;
+}
+.sidebar .nav-link.active-border {
+    border-left: 4px solid #17a2b8;
+    background-color: #495057;
+    color: #ffffff;
+}
+.styleUser {
+    margin-top: 20%;
+    color: #fff;
+}
+.styleForm {
+    width: 50%;
+    margin: 0 auto;
+}
+
+/* Main content area */
+.main-content {
+    margin-left: 16.66%;
+    padding-top: 20px;
+}
+
+/* Dashboard card styles */
+.dashboard-card {
+    color: white;
+    font-weight: bold;
+}
+.bg-blue {
+    background-color: #17a2b8;
+}
+.bg-green {
+    background-color: #28a745;
+}
+.bg-orange {
+    background-color: #fd7e14;
+}
+.bg-red {
+    background-color: #dc3545;
+}
+.card .icon {
+    font-size: 40px;
+    opacity: 0.3;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.section-title {
+    font-weight: bold;
+    margin-top: 20px;
+}
+.btn-yellow_GGia {
+    background-color: #ffc107; /* Vibrant Yellow */
+    color: #000; /* Black text */
+    border: none;
+}
+.btn-yellow_GGia:hover {
+    background-color: #e0a800; /* Slightly darker yellow for hover effect */
+}
+.btn_border {
+    border: 1px solid rgb(158, 153, 153);
+}
+.form-check-input {
+    width: 2em;
+    height: 1em;
+    background-color: #ccc;
+    border-radius: 1em;
+    position: relative;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.form-check-input:checked {
+    background-color: #0d6efd;
+}
+
+.form-check-input::before {
+    content: "";
+    position: absolute;
+    top: 0.1em;
+    left: 0.1em;
+    width: 0.8em;
+    height: 0.8em;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease-in-out;
+}
+.form-check-input:checked::before {
+    transform: translateX(1em);
+}
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.pagination .page-link {
+    color: #007bff;
+    border: 1px solid #dee2e6;
+}
+
+.pagination .page-link:hover {
+    background-color: #f8f9fa;
+    border-color: #007bff;
+}

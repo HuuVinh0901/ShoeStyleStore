@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Tìm kiếm</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/Search.css">
+</head>
+
+<body class="page-search">
+<div id="header"></div>
+<div class="container my-5" id="product-search">
+    <form id="filter-form" action="/product-search/filtered" method="GET">
+        <div class="filter-header">
+            <!--            <a href="#">Ẩn Bộ Lọc <i class="fas fa-sliders-h"></i></a>-->
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle" id="sortByDropdown" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">
+                    Sort By
+                </a>
+                <span id="selected-sort-by" class="ml-2" style="display: none;"></span>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="sortByDropdown">
+<!--                    <a class="dropdown-item" data-sort="Featured">Featured</a>-->
+                    <a class="dropdown-item" data-sort="Newest">Newest</a>
+                    <a class="dropdown-item" data-sort="Price: High-Low">Price: High-Low</a>
+                    <a class="dropdown-item" data-sort="Price: Low-High">Price: Low-High</a>
+                </div>
+                <input type="hidden" name="sortBy" id="sortByInput" class="filter-input">
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Bộ lọc theo loại sản phẩm -->
+                <div class="filter-section">
+                    <h5>Category</h5>
+                    <ul class="list-unstyled">
+                        <li class="filter-option" th:each="category : ${categories}">
+                            <label>
+                                <input type="checkbox" name="categoryIds" th:value="${category.categoryID}"
+                                       class="filter-input"/>
+                                <span th:text="${category.name}"></span>
+                                <span th:text="'(' + ${category.productCount} + ')'"></span>
+                            </label>
+
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Bộ lọc theo giá -->
+<!--                <div class="filter-section">-->
+<!--                    <h5>Price</h5>-->
+<!--                    <div class="price-grid">-->
+<!--                        <label><input type="radio" class="filter-input" name="price" value="under500"/> Under-->
+<!--                            500.000</label>-->
+<!--                        <label><input type="radio" class="filter-input" name="price" value="500-1000"/> 500.000-1.000.000</label>-->
+<!--                        <label><input type="radio" class="filter-input" name="price" value="1000-2000-150"/>-->
+<!--                            1.000.000-2.000.000-->
+<!--                        </label>-->
+<!--                                                <label><input type="radio" class="filter-input" name="price" value="over2000"/>Over 2.000.000-->
+<!--                                                    </label>-->
+<!--                        &lt;!&ndash;                        <label><input type="radio" class="filter-input" name="price" value="200-300"/> 200 đến&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            300</label>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        <label><input type="radio" class="filter-input" name="price" value="over300"/> Trên 300</label>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
+
+                <!-- Bộ lọc theo thương hiệu -->
+                <div class="filter-section">
+                    <h5>Brand</h5>
+                    <ul class="list-unstyled">
+                        <li class="filter-option" th:each="brands : ${brands}">
+                            <label>
+                                <input type="checkbox" name="brandIds" th:value="${brands.brandID}"
+                                       class="filter-input"/>
+                                <span th:text="${brands.name}"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Bộ lọc theo màu sắc -->
+                <div class="filter-section">
+                    <h5>Color</h5>
+                    <div class="color-options">
+                        <!-- Hiển thị các màu sắc -->
+                        <span class="color-circle"
+                              th:each="color : ${colors}"
+                              th:style="'background-color:' + ${color.colorName}"
+                              th:data-color-name="${color.colorName}"
+                              onclick="toggleColor(this)">
+                        <span class="checkmark">&#10004;</span> <!-- Dấu tích ✔ -->
+                         </span>
+                    </div>
+                    <!-- Input ẩn để lưu dữ liệu các màu được chọn -->
+                    <input type="hidden" id="selectedColors" name="colors" value="" class="filter-input">
+                </div>
+
+                <!-- Bộ lọc theo kích cỡ -->
+                <!--                <div class="filter-section">-->
+                <!--                    <h5>Size</h5>-->
+                <!--                    <div class="size-options">-->
+                <!--                        <div class="size-option" th:each="size : ${sizes}" th:text="${size}"></div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+            </div>
+
+            <!-- Lưới sản phẩm -->
+            <div class="col-md-9">
+                <div class="row" id="products-container">
+                    <th:block th:each="product : ${products}">
+                        <div class="col-md-4 mb-4">
+                            <a th:href="@{'/product-details/' + ${product.productID}}" class="link-details">
+                                <div class="product-card">
+                                    <img th:src="@{'http://localhost:8080/ImageProduct/' + ${product.productID} + '/' + ${product.imageURL.get(0)}}"
+                                         alt="Product Image">
+<!--                                    <span th:text="'http://localhost:8080/ImageProduct/' + ${product.productID} + '/' + ${product.imageURL.get(0)}"></span>-->
+<!--                                    <img th:src="@{${product.imageURL.get(0)}}"/>-->
+                                    <div class="product-info">
+                                        <h6 th:text="${product.productName}"></h6>
+                                        <p th:text="${product.description}"></p>
+                                        <p class="product-price" th:text="${product.price}"></p>
+                                    </div>
+
+                                    <div class="add-to-cart">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </th:block>
+                </div>
+
+                <!-- Phân trang -->
+                <!--                <div class="pagination-container">-->
+                <!--                    <ul class="pagination">-->
+                <!--                        <li class="page-item"><a class="page-link" href="#">Trước</a></li>-->
+                <!--                        <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+                <!--                        <li class="page-item active"><a class="page-link" href="#">2</a></li>-->
+                <!--                        <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+                <!--                        <li class="page-item"><a class="page-link" href="#">Tiếp</a></li>-->
+                <!--                    </ul>-->
+                <!--                </div>-->
+            </div>
+        </div>
+    </form>
+</div>
+<div id="footer"></div>
+
+<script src="/js/Home.js"></script>
+<script src="/js/script.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function updateFilterState() {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Cập nhật các checkbox và radio buttons từ URL query string
+        document.querySelectorAll('.filter-input').forEach(input => {
+            const name = input.name;
+            if (urlParams.has(name)) {
+                if (input.type === 'checkbox') {
+                    // Nếu là checkbox, kiểm tra xem giá trị có trong queryString không
+                    const values = urlParams.getAll(name);
+                    input.checked = values.includes(input.value);
+                } else if (input.type === 'radio') {
+                    // Nếu là radio, kiểm tra xem giá trị có trong queryString không
+                    input.checked = input.value === urlParams.get(name);
+                }
+            }
+        });
+
+        // Cập nhật giá trị sortBy từ URL vào dropdown
+        const sortBy = urlParams.get('sortBy');
+        if (sortBy) {
+            const selectedSortBy = document.querySelector(`[data-sort="${sortBy}"]`);
+            if (selectedSortBy) {
+                selectedSortBy.classList.add('active');
+            }
+        }
+    }
+
+    function submitForm() {
+        const form = document.getElementById('filter-form');
+        const formData = new FormData(form);
+
+        // Tạo chuỗi query từ formData
+        let queryString = new URLSearchParams(formData).toString();
+        const url = new URL(window.location.href);
+
+        // Kiểm tra xem 'colors' có giá trị hay không
+        const selectedColors = formData.get("colors");
+        if (!selectedColors) {
+            url.searchParams.delete('colors');  // Xóa tham số nếu không có giá trị
+        } else {
+            url.searchParams.set("colors", selectedColors); // Cập nhật giá trị mới
+        }
+
+        // Kiểm tra xem 'sortBy' có giá trị hay không, nếu không thì xóa tham số
+        const selectedSortBy = formData.get("sortBy");
+        if (!selectedSortBy) {
+            url.searchParams.delete('sortBy');  // Xóa tham số sortBy nếu không có giá trị
+        } else {
+            url.searchParams.set("sortBy", selectedSortBy); // Cập nhật giá trị mới
+        }
+
+        // Cập nhật URL mà không tải lại trang
+        history.pushState(null, "", url);
+
+        // Gửi dữ liệu đến server mà không tải lại trang
+        fetch(form.action + "?" + queryString, {
+            method: 'GET',
+        })
+            .then(response => response.text())
+            .then(data => {
+                // Cập nhật lại danh sách sản phẩm mà không làm tải lại trang
+                document.getElementById('products-container').innerHTML = data;
+                updateFilterState();
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Bắt sự kiện thay đổi bộ lọc
+        const filterInputs = document.querySelectorAll('.filter-input');
+        filterInputs.forEach(input => {
+            input.addEventListener('change', function () {
+                submitForm();  // Gửi form khi có thay đổi
+            });
+        });
+
+        // Bắt sự kiện chọn tùy chọn sắp xếp
+        const sortByDropdownItems = document.querySelectorAll('.dropdown-item');
+        sortByDropdownItems.forEach(item => {
+            item.addEventListener('click', function () {
+                const sortByValue = item.getAttribute('data-sort');
+                updateSortBy(sortByValue);
+            });
+        });
+
+        // Cập nhật trạng thái ban đầu của bộ lọc từ URL
+        updateFilterState();
+    });
+
+    function updateSortBy(sortByValue) {
+        const url = new URL(window.location.href);
+
+        // Cập nhật tham số sortBy trong URL nếu có giá trị
+        if (sortByValue) {
+            url.searchParams.set('sortBy', sortByValue);  // Cập nhật sortBy
+        } else {
+            url.searchParams.delete('sortBy');  // Nếu không có giá trị, xóa tham số sortBy
+        }
+
+        // Cập nhật URL mà không tải lại trang
+        history.pushState(null, "", url);
+
+        // Cập nhật dropdown để phản ánh tùy chọn sắp xếp đã chọn
+        const sortByDropdownItems = document.querySelectorAll('.dropdown-item');
+        sortByDropdownItems.forEach(item => {
+            if (item.getAttribute('data-sort') === sortByValue) {
+                item.classList.add('active');  // Đánh dấu tùy chọn hiện tại là active
+            } else {
+                item.classList.remove('active');  // Bỏ 'active' khỏi các mục khác
+            }
+        });
+
+        // Cập nhật giá trị cho input ẩn với giá trị sortBy đã chọn
+        const sortByInput = document.getElementById('sortByInput');
+        if (sortByInput) {
+            sortByInput.value = sortByValue;
+
+        }
+        const selectedSortByElement = document.getElementById('selected-sort-by');
+        if (sortByValue) {
+            selectedSortByElement.textContent = `: ${sortByValue}`;
+            selectedSortByElement.style.display = 'inline';  // Hiển thị phần tử
+        } else {
+            selectedSortByElement.style.display = 'none';  // Ẩn phần tử nếu không có giá trị
+        }
+        submitForm()
+    }
+
+    function toggleColor(element) {
+        const selectedColorsInput = document.getElementById('selectedColors');
+        let selectedColors = selectedColorsInput.value ? selectedColorsInput.value.split(',') : [];
+
+        const colorName = element.getAttribute('data-color-name');
+
+        if (selectedColors.includes(colorName)) {
+            selectedColors = selectedColors.filter(color => color !== colorName);
+            element.classList.remove('selected');
+        } else {
+            selectedColors.push(colorName);
+            element.classList.add('selected');
+        }
+
+        selectedColorsInput.value = selectedColors.join(',');
+
+        // Chỉ gửi form nếu có màu được chọn
+        if (selectedColors.length > 0) {
+            submitForm();
+        } else {
+            // Cập nhật URL để xóa tham số colors nếu không có giá trị
+            const url = new URL(window.location.href);
+            url.searchParams.delete('colors');
+            history.pushState(null, "", url);
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/Checkout.css">
+</head>
+<body>
+
+<div class="checkout-container">
+    <!-- Left Side: Contact and Delivery Form -->
+    <div class="checkout-form">
+
+        <h4 class="checkout-section__title">Delivery Information</h4>
+        <div class="checkout-form__group">
+
+            <select id="address" class="checkout-form__input">
+                <option th:each="address : ${address}"
+                        th:value="${address.addressID}"
+                        th:text="'Street: ' + ${address.street} + ', City: ' + ${address.city} + ', Ward: ' + ${address.ward} + ', District: ' + ${address.district}">
+                </option>
+            </select>
+
+
+            <div class="checkout-form__row">
+                <input type="text" class="checkout-form__input" placeholder="Name"
+                       th:value="${user.name}" readonly>
+                <input type="text" class="checkout-form__input" placeholder="Email"
+                       th:value="${user.email}" readonly>
+            </div>
+            <div class="checkout-form__group">
+                <input type="text" class="checkout-form__input" placeholder="Mobile phone number"
+                       th:value="${user.phoneNumber}" readonly>
+            </div>
+            <!--            <input type="text" class="checkout-form__input" placeholder="Address">-->
+            <!--            <input type="text" class="checkout-form__input" placeholder="Apartment, suite, etc. (optional)">-->
+            <!--            <div class="checkout-form__row">-->
+            <!--                <input type="text" class="checkout-form__input" placeholder="City">-->
+            <!--                <input type="text" class="checkout-form__input" placeholder="Postal code (optional)">-->
+            <!--            </div>-->
+            <!--            <label class="checkout-form__checkbox">-->
+            <!--                <input type="checkbox"> Save this information for next time-->
+            <!--            </label>-->
+        </div>
+
+        <!--        <h4 class="checkout-section__title">Shipping method</h4>-->
+        <!--        <button class="checkout-form__shipping-option">Standard <span>FREE</span></button>-->
+
+        <h4 class="checkout-section__title">Payment</h4>
+        <p class="checkout-form__note">All transactions are secure and encrypted.</p>
+        <div class="checkout-form__payment">
+            <div class="checkout-form__payment-options">
+                <label class="checkout-form__payment-option"><input type="radio" name="payment" value="vnpay"><img
+                        th:src="@{/images/logos/vnpay_logo.png}" alt="VNPay" class="checkout-form__payment-logo"> VNPay</label>
+                <!--                <label class="checkout-form__payment-option"><input type="radio" name="payment" value="momo"><img-->
+                <!--                        th:src="@{/images/logos/momo_logo.png}" alt="Momo" class="checkout-form__payment-logo">-->
+                <!--                    Momo</label>-->
+                <label class="checkout-form__payment-option"><input type="radio" name="payment" value="cod"> Cash on
+                    Delivery</label>
+            </div>
+            <button id="orderButton" class="checkout-form__pay-now">Order</button>
+        </div>
+    </div>
+
+    <!-- Right Side: Order Summary -->
+    <div class="checkout-summary">
+        <h4 class="checkout-summary__title">Order Summary</h4>
+
+        <div th:each="product : ${ProductDetailCheckoutDTO}" class="checkout-summary__item">
+            <img th:src="@{'http://localhost:8080/ImageProduct/' + ${product.productId} + '/' + ${product.image.get(0)}}"
+                 alt="Product Image"
+                 class="checkout-summary__image">
+            <!--            <span th:text="'http://localhost:8080/ImageProduct/' + ${product.productId} + '/' + ${product.image.get(0)}"></span>-->
+            <div class="checkout-summary__details">
+                <p th:text="${product.name}" class="checkout-summary__product-name"></p>
+                <p th:text="${product.productDetailDTO.color+' / '+product.productDetailDTO.size.sizeValue}"
+                   class="checkout-summary__product-variant"></p>
+                <p class="checkout-summary__product-variant" th:text="${product.price}+' x '+${product.quantity}"></p>
+            </div>
+            <p class="checkout-summary__price" th:text="${product.price* product.quantity}"></p>
+            <input type="hidden" th:value="${product.price}" class="product-price">
+            <input type="hidden" th:value="${product.quantity}" class="product-quantity">
+            <input type="hidden" th:value="${product.productDetailDTO}" class="product-detail-dto">
+        </div>
+
+
+        <div class="checkout-summary__totals">
+            <p class="checkout-summary__subtotal">Subtotal <span th:text="${subTotal}"></span></p>
+            <p class="checkout-summary__shipping">Shipping <span th:text="${delivery}" id="delivery"></span></p>
+            <p class="checkout-summary__taxes">Estimated taxes <span>222.50VNĐ</span></p>
+            <h4 class="checkout-summary__total">Total <span th:text="${total}+' VND'" id="total"></span></h4>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="orderSuccessModal" tabindex="-1" role="dialog" aria-labelledby="orderSuccessModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderSuccessModalLabel">Order Success</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Your order has been placed successfully! We will process it shortly.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("orderButton").addEventListener("click", function () {
+        // Lấy các thông tin khác như address, total, delivery
+        const address = document.getElementById("address").value; // Giá trị addressID được chọn
+        let total = document.getElementById("total").innerText.trim(); // Tổng tiền
+        let delivery = document.getElementById("delivery").innerText.trim(); // Phí giao hàng
+
+        // Xử lý phí giao hàng (delivery)
+        delivery = delivery === "FREE" ? 0 : parseInt(delivery.replace(/\D/g, ""));
+
+        // Loại bỏ " VND" khỏi tổng tiền
+        total = parseInt(total.replace(/\D/g, ""));
+
+        let productDetails = [];
+        document.querySelectorAll('.checkout-summary__item').forEach(item => {
+            const product = {
+                price: parseFloat(item.querySelector('.product-price').value),
+                quantity: parseInt(item.querySelector('.product-quantity').value),
+                productDetailId: item.querySelector('.product-detail-dto').value
+            };
+            productDetails.push(product);
+        });
+        const paymentOption = document.querySelector('input[name="payment"]:checked');
+        if (!paymentOption) {
+            alert("Vui lòng chọn phương thức thanh toán!");
+            return;
+        }
+        const paymentcase = paymentOption.value === "vnpay" ? 1 : 2;
+        console.log(paymentcase)
+        // Kiểm tra xem đã có đầy đủ thông tin chưa
+        if (!address) {
+            alert("Vui lòng chọn địa chỉ giao hàng!");
+            return;
+        }
+
+        // Tạo URL với query parameters
+        const url = "/order/payment/add"; // URL controller của bạn
+        const params = new URLSearchParams();
+        params.append("address", parseInt(address));
+        params.append("total", total);
+        params.append("delivery", delivery);
+
+        // Gửi dữ liệu productDetails dưới dạng JSON trong body
+        const requestData = {
+            address: parseInt(address),
+            total: total,
+            delivery: delivery,
+            productDetails: productDetails,
+            paymentCase: parseInt(paymentcase),
+        };
+
+        // Gửi POST request
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log("thành công")
+                    // Hiển thị modal thông báo thành công
+                    $('#orderSuccessModal').modal('show'); // Hiển thị modal
+                    // Chuyển hướng sau 2 giây
+                    setTimeout(function() {
+                        window.location.href = "/customer/product-search";  // Chuyển hướng đến trang tìm kiếm
+                    }, 3000);
+                } else {
+                    // Xử lý nếu có lỗi trong quá trình gửi yêu cầu
+                    alert("Có lỗi xảy ra, vui lòng thử lại!");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Có lỗi xảy ra, vui lòng thử lại!");
+            });
+    });
+
+
+</script>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Tải jQuery (nếu chưa có) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</html>

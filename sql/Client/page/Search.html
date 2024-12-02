@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/Search.css">
+</head>
+
+<body class="page-search">
+  <div id="header"></div>
+  <div class="container my-5">
+    <!-- Filter Header with Hide Filters and Sort By Options -->
+    <div class="filter-header">
+      <a href="#">Hide Filters <i class="fas fa-sliders-h"></i></a>
+      <div class="dropdown">
+        <a href="#" class="dropdown-toggle" id="sortByDropdown" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">Sort By</a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="sortByDropdown">
+          <a class="dropdown-item" href="#">Featured</a>
+          <a class="dropdown-item" href="#">Newest</a>
+          <a class="dropdown-item" href="#">Price: High-Low</a>
+          <a class="dropdown-item" href="#">Price: Low-High</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Sidebar with filters -->
+      <div class="col-md-3">
+        <!-- Categories Filter -->
+        <div class="filter-section">
+          <h5>Categories</h5>
+          <ul class="list-unstyled">
+            <li class="filter-option">
+              <label><input type="checkbox" /> Lifestyle</label>
+              <span>(47)</span>
+            </li>
+            <li class="filter-option">
+              <label><input type="checkbox" /> Running</label>
+              <span>(23)</span>
+            </li>
+            <li class="filter-option">
+              <label><input type="checkbox" /> Training & Gym</label>
+              <span>(15)</span>
+            </li>
+            <li class="filter-option">
+              <label><input type="checkbox" /> Basketball</label>
+              <span>(25)</span>
+            </li>
+            <li class="filter-option">
+              <label><input type="checkbox" /> Football</label>
+              <span>(20)</span>
+            </li>
+            <li class="filter-option">
+              <label><input type="checkbox" /> Soccer</label>
+              <span>(10)</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Price Filter in Grid -->
+        <div class="filter-section">
+          <h5>Price</h5>
+          <div class="price-grid">
+            <label><input type="radio" name="price" /> Under 50</label>
+            <label><input type="radio" name="price" /> 50 to 100</label>
+            <label><input type="radio" name="price" /> 100 to 150</label>
+            <label><input type="radio" name="price" /> 150 to 200</label>
+            <label><input type="radio" name="price" /> 200 to 300</label>
+            <label><input type="radio" name="price" /> Over 300</label>
+          </div>
+        </div>
+        <!-- Brand Filter -->
+        <div class="filter-section">
+          <h5>Brand</h5>
+          <ul class="list-unstyled">
+            <li class="filter-option">
+              <label><input type="checkbox" /> Nike</label>
+            </li>
+            <li class="filter-option">
+              <label><input type="checkbox" /> Adidas</label>
+            </li>
+            <li class="filter-option">
+              <label><input type="checkbox" /> Puma</label>
+            </li>
+            <li class="filter-option">
+              <label><input type="checkbox" /> Reebok</label>
+            </li>
+          </ul>
+        </div>
+        <!-- Color Filter -->
+        <div class="filter-section">
+          <h5>Color</h5>
+          <div class="color-options">
+            <span class="color-circle" style="background-color: red"></span>
+            <span class="color-circle" style="background-color: blue"></span>
+            <span class="color-circle" style="background-color: green"></span>
+            <span class="color-circle" style="background-color: yellow"></span>
+            <span class="color-circle" style="background-color: black"></span>
+            <span class="color-circle" style="background-color: purple"></span>
+            <span class="color-circle" style="background-color: orange"></span>
+            <span class="color-circle" style="background-color: pink"></span>
+          </div>
+        </div>
+
+        <!-- Size Filter -->
+        <div class="filter-section">
+          <h5>Size</h5>
+          <div class="size-options">
+            <div class="size-option">36</div>
+            <div class="size-option">37</div>
+            <div class="size-option">38</div>
+            <div class="size-option">39</div>
+            <div class="size-option">40</div>
+            <div class="size-option">41</div>
+            <div class="size-option">42</div>
+            <div class="size-option">43</div>
+            <div class="size-option">44</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="col-md-9">
+        <div class="row">
+          <!-- Product Cards -->
+          <div class="col-md-4 mb-4">
+            <div class="product-card">
+              <img src="shoe1.jpg" alt="Nike Air Max 270" />
+              <div class="product-info">
+                <h6>Nike Air Max 270</h6>
+                <p>Men's Shoe</p>
+                <p class="product-price">$180</p>
+              </div>
+              <div class="add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+            </div>
+          </div>
+          <!-- More Product Cards here if needed -->
+          <div class="col-md-4 mb-4">
+            <div class="product-card">
+              <img src="shoe1.jpg" alt="Nike Air Max 270" />
+              <div class="product-info">
+                <h6>Nike Air Max 2701221321241</h6>
+                <p>Men's Shoe</p>
+                <p class="product-price">$180</p>
+              </div>
+              <div class="add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+            </div>
+          </div>
+          
+
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-container">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#">Previous</a>
+            </li>
+          </ul>
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active">
+              <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+          </ul>
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer"></div>
+  <!-- <script src="../js/Search.js"></script> -->
+  <script src="../js/Home.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

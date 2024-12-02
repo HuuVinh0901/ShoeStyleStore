@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="../css/WishList.css" />
+
+<div id="wishlistModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <h2 class="modal-title">My Wishlist</h2>
+    <div class="wishlist-items">
+      <!-- Wishlist Item -->
+      <div class="wishlist-item">
+        <div class="wishlist-item__image-wrapper">
+          <img src="../images/product1.jpg" alt="Product Image" class="wishlist-item__image">
+        </div>
+        <div class="wishlist-item__details">
+          <h4 class="wishlist-item__name">Diamond Halo Studio</h4>
+          <p class="wishlist-item__price">
+            <span class="wishlist-item__current-price">$575.00</span>
+            <span class="wishlist-item__original-price">$775.00</span>
+          </p>
+          <p class="wishlist-item__attributes">Blue / M</p>
+        </div>
+        <div class="wishlist-item__actions">
+          <button class="wishlist-item__btn wishlist-item__btn--add">
+            <i class="fas fa-cart-plus"></i> Add to Cart
+          </button>
+          <button class="wishlist-item__btn wishlist-item__btn--remove">
+            <i class="fas fa-trash"></i> Remove
+          </button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi Tiet Don Hang</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/ChiTietDonHang.css}"/>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <nav class="sidebar col-md-2 d-none d-md-block">
+          <div class="sidebar-sticky">
+            <h4 class="text-light text-center mt-4">AdminAD</h4>
+            <ul class="nav flex-column mt-3">
+              <li class="nav-item mt-3">
+                <a class="nav-link text-light" href="http://localhost:3000/admin/orders/Home" onclick="setActive(this)">Home</a>
+              </li>
+              <li class="nav-item mt-3">
+                <a class="nav-link text-light" href="http://localhost:3000/admin/users/list" onclick="setActive(this)">Thành viên</a>
+              </li>
+              <li class="nav-item mt-3">
+                <a class="nav-link text-light" href="http://localhost:3000/page/admin/reviews" onclick="setActive(this)">Đánh giá</a>
+              </li>
+              <li class="nav-item mt-3">
+                <a class="nav-link text-light" href="http://localhost:3000/page/admin/products" onclick="setActive(this)">Sản phẩm</a>
+              </li>
+              <li class="nav-item mt-3">
+                <a class="nav-link text-light" href="http://localhost:3000/admin/orders/view" onclick="setActive(this)">Đơn hàng</a>
+              </li>
+              <li class="nav-item mt-3">
+                <a class="nav-link text-light" href="http://localhost:3000/admin/vouchers/view" onclick="setActive(this)">Khuyến Mãi</a>
+              </li>
+            </ul>
+            <div class="styleUser text-center" style="margin-top: 110%">
+              <h6 id="username-display"></h6>
+              <button class="btn btn-danger stylebtnDangXuat" onclick="logout()">Đăng Xuất</button>
+            </div>
+          </div>
+        </nav>
+        <!-- Main Content -->
+        <main class="main-content col-md-10 ml-sm-auto px-4">
+          <div
+            class="justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <button class="btn btn-primary stylebtnDangXuat" ><a th:href="@{http://localhost:3000/orders/view}" style="color: white">Danh Sách Đơn Hàng</a></button>
+            <div class="progress-tracker mt-3 my-5">
+              <h5>Hóa đơn <span id="O_ID" th:text="${orderDetail['orderID']}"></span></h5>
+              <div class="progress-steps d-flex justify-content-between align-items-center pt-4 ">
+                <div class="step text-center" th:class=" ${orderDetail['status'] == 'Processing' or orderDetail['status'] == 'Shipped' or orderDetail['status'] == 'Delivered' or orderDetail['status'] == 'Return' ? 'active' : 'inactive'}">
+                  <div class="icon-circle bg-primary text-white mb-2">
+                    <img src="https://static.thenounproject.com/png/2965944-200.png" alt="Processing Icon" class="icon-img">
+                  </div>
+                  <p class="font-weight-bold bg-primary text-white ">Processing</p>
+                </div>
+
+                <div class="step text-center" th:class="${orderDetail['status'] == 'Shipped' or orderDetail['status'] == 'Delivered' or orderDetail['status'] == 'Return' ? 'active' : 'inactive'}">
+                  <div class="icon-circle bg-success text-white mb-2">
+                    <img src="https://cdn-icons-png.flaticon.com/512/411/411712.png" alt="Shipped Icon" class="icon-img">
+                  </div>
+                  <p class="font-weight-bold bg-success text-white">Shipped</p>
+                </div>
+
+                <div class="step text-center" th:class="${orderDetail['status'] == 'Delivered' or orderDetail['status'] == 'Return' ? 'active' : 'inactive'}">
+                  <div class="icon-circle bg-success text-white mb-2">
+                    <img src="https://cdn-icons-png.flaticon.com/512/10543/10543121.png" alt="Delivered Icon" class="icon-img">
+                  </div>
+                  <p class="font-weight-bold bg-success text-white">Delivered</p>
+                </div>
+
+                <div class="step text-center" th:class="${orderDetail['status'] == 'Return' ? 'active' : 'inactive'}">
+                  <div class="icon-circle bg-danger text-white mb-2">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrjOkiN9fnnys6sbElbNZO9D22pDdBkGZ78w&s" alt="Return Icon" class="icon-img">
+                  </div>
+                  <p class="font-weight-bold bg-danger text-white">Return</p>
+                </div>
+              </div>
+              <div class="buttons mt-4 text-right">
+                <button
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#confirmModal"
+                >
+                  Hoàn thành
+                </button>
+                <button id="printInvoiceButton" class="btn btn-info no-print">Gửi Hóa Đơn</button>
+              </div>
+            </div>
+          </div>
+          <!-- Section: Thông Tin Đơn Hàng -->
+          <div class="row" id="invoiceSection">
+              <!-- Thông Tin Đơn Hàng -->
+              <div class="col-md-6">
+                <h5 class="text-primary">Thông Tin Đơn Hàng</h5>
+                <div class="border p-3 rounded">
+                  <div class="row mb-2">
+                    <div class="col-6 text-right">
+                      <strong>Trạng thái:</strong>
+                    </div>
+                    <div class="col-6">
+                      <span id="orderStatus" th:text="${orderDetail['status']}" style=" background: yellow;"></span>
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-6 text-right">
+                      <strong>Thanh Toán:</strong>
+                    </div>
+                    <div class="col-6">
+                      <span id="orderPayment" style=" background: yellow;" th:text="${orderDetail['paymentStatus']}"></span>
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-6 text-right"><strong>Mã đơn:</strong></div>
+                    <div class="col-6">
+                      <span id="orderID" th:text="${orderDetail['orderID']}"></span>
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-6 text-right">
+                      <strong>Phí vận chuyển:</strong>
+                    </div>
+                    <div class="col-6">
+                      <span id="feeShip" th:text="${orderDetail['feeShip']}"></span>
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-6 text-right"><strong>Giảm giá:</strong></div>
+                    <div class="col-6">
+                      <span id="discount"
+                            th:text="${orderDetail['voucherType'] == 'Percentage'
+                                      ? orderDetail['voucher'] + ' %'
+                                      : orderDetail['voucher']}">
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="row mb-2">
+                    <div class="col-6 text-right">
+                      <strong>Tổng tiền phải thanh toán:</strong>
+                    </div>
+                    <div class="col-6">
+                      <span id="totalPayable" th:text="${orderDetail['totalAmount']}"></span>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+
+              <!-- Thông Tin Khách Hàng -->
+              <div class="col-md-6">
+                <h5 class="text-primary">Thông Tin Khách Hàng</h5>
+                <div class="border p-3 rounded">
+                  <div class="row mb-2">
+                    <div class="col-6 text-right">
+                      <strong>Tên khách hàng:</strong>
+                    </div>
+                    <div class="col-6">
+                      <span id="customerName" th:text="${orderDetail['userName']}"></span>
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-6 text-right">
+                      <strong>Số điện thoại:</strong>
+                    </div>
+                    <div class="col-6">
+                      <span id="customerPhone" th:text="${orderDetail['phoneNumber']}"></span>
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-6 text-right">
+                      <strong>Email:</strong>
+                    </div>
+                    <div class="col-6">
+                      <span id="customerEmail" th:text="${orderDetail['email']}"></span
+                      >
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-6 text-right">
+                      <strong>Địa chỉ giao hàng:</strong>
+                    </div>
+                    <div class="col-6">
+                      <span id="customerAddress" th:text="${orderDetail['shippingAddress']}"></span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <div class="row mt-3">
+              <div class="col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered text-center" id="productTable">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>ID</th>
+                        <th>Hình Ảnh</th>
+                        <th>Tên Sản Phẩm và Đơn Giá</th>
+                        <th>Số Lượng</th>
+                        <th>Tổng Tiền</th>
+                      </tr>
+                    </thead>
+                    <tbody id="productList">
+                      <tr th:each="product, iterStat : ${orderDetail.orderDetails}">
+                        <td th:text="${iterStat.count}"></td>
+                        <td style="    width: 150px; height: 90px; text-align: center;">
+                          <img th:src="@{'http://localhost:8080/ImageProduct/' + ${product.productID} + '/' + ${product.imageURL}}"
+                               alt="Product Image">
+                        </td>
+
+                        <td>
+                          <p class="mb-0 font-weight-bold" th:text="${product.productName}"></p>
+                          <small>Đơn giá: <span id="price-${product.productID}" th:text="${product.price}"></span></small>
+                        </td>
+                        <td style="display: none" data-product-id="${product.productID}"></td>
+                        <td>
+                          <input type="number" disabled
+                                 class="form-control text-center quantity-input"
+                                 th:value="${product.quantity}"
+                                 style="max-width: 70px; margin: 0 auto"
+                                 th:data-product-id="${product.productID}"/>
+                        </td>
+                        <td>
+                          <span id="total-${product.productID}" th:text="${product.quantity * product.price}"></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="noteForm">
+              <div class="form-group">
+                <div>
+                  <h2>Chọn</h2>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="messageOption" id="optionShipped" value="Shipped"
+                           th:disabled="${orderDetail.status != 'Processing'}" />
+                    <label class="form-check-label" for="optionShipped">Shipped</label>
+                  </div>
+
+                  <!-- Delivered radio button, disable when status is not 'Shipped' -->
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="messageOption" id="optionDelivered" value="Delivered"
+                           th:disabled="${orderDetail.status != 'Shipped'}" />
+                    <label class="form-check-label" for="optionDelivered">Delivered</label>
+                  </div>
+
+                  <!-- Return radio button, disable when status is not 'Delivered' -->
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="messageOption" id="optionReturn" value="Return"
+                           th:disabled="${orderDetail.status != 'Delivered'}" />
+                    <label class="form-check-label" for="optionReturn">Return</label>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-primary" id="confirmButton">Xác nhận</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/js/OrderDetail.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <script>
+      async function fetchAndUseFont() {
+        const {jsPDF} = window.jspdf;
+
+        // URL của font Roboto
+        const fontUrl = 'https://example.com/Roboto-Regular.ttf';
+
+        // Tải font từ URL
+        const response = await fetch(fontUrl);
+        const fontBlob = await response.blob();
+
+        // Chuyển font sang định dạng base64
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const fontBase64 = e.target.result.split(',')[1];
+          const pdf = new jsPDF();
+
+          // Thêm font vào jsPDF
+          pdf.addFileToVFS('Roboto-Regular.ttf', fontBase64);
+          pdf.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
+          pdf.setFont('Roboto');
+
+          // Tạo nội dung PDF
+          pdf.setFontSize(20);
+          pdf.text('Hóa Đơn Mua Hàng', 10, 10);
+          pdf.setFontSize(12);
+          pdf.text('Tên khách hàng: Nguyễn Văn A', 10, 30);
+          pdf.text('Địa chỉ: 123 Nguyễn Trãi, Hà Nội', 10, 40);
+          pdf.text('Điện thoại: 0123 456 789', 10, 50);
+
+          // Lưu file PDF
+          pdf.save('invoice.pdf');
+        };
+
+        reader.readAsDataURL(fontBlob);
+      }
+
+      document.getElementById('confirmButton').addEventListener('click', () => {
+        const selectedOption = document.querySelector('input[name="messageOption"]:checked').value;
+        const orderId = document.getElementById('O_ID').innerText;
+        console.log(orderId)
+        console.log(selectedOption)
+        // Gửi request đến server
+        fetch('http://localhost:8080/Order/update-status', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            orderId: parseInt(orderId),
+            status: selectedOption
+          })
+        })
+                .then(response => {
+                  if (response.ok) {
+                    alert('Cập nhật trạng thái thành công!');
+                    $('#confirmModal').modal('hide');
+                    location.reload();
+                  } else {
+                    response.text().then(text => alert('Có lỗi xảy ra: ' + text));
+                  }
+                })
+                .catch(error => console.error('Lỗi:', error));
+      });
+
+      function formatCurrency(value) {
+        value = Math.round(value);
+        return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(value);
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const feeShip = document.getElementById('feeShip');
+        const discount = document.getElementById('discount');
+        const totalPayable = document.getElementById('totalPayable');
+        const priceElements = document.querySelectorAll('[id^="price-"]');
+        const totalElements = document.querySelectorAll('[id^="total-"]');
+
+        // Định dạng và hiển thị lại giá trị
+        if (feeShip) {
+          // Loại bỏ dấu phân cách ngàn và chuyển thành số, làm tròn trước khi định dạng
+          feeShip.textContent = formatCurrency(Math.round(parseFloat(feeShip.textContent)));
+        }
+
+        if (discount) {
+          const discountText = discount.textContent;
+          if (discountText.includes('%')) {
+            const discountPercentage = parseFloat(discountText.replace('%', '').trim());
+            discount.textContent = discountPercentage + ' %';
+          } else {
+            discount.textContent = formatCurrency(Math.round(parseFloat(discount.textContent)));
+          }
+        }
+
+        if (totalPayable) {
+          totalPayable.textContent = formatCurrency(Math.round(parseFloat(totalPayable.textContent)));
+        }
+        priceElements.forEach(element => {
+          element.textContent = formatCurrency(Math.round(parseFloat(element.textContent)));
+        });
+        totalElements.forEach(element => {
+          element.textContent = formatCurrency(Math.round(parseFloat(element.textContent)));
+        });
+      });
+
+      document.getElementById("printInvoiceButton").addEventListener("click", function() {
+        const orderID = document.getElementById("orderID");
+        const orderStatus = document.getElementById("orderStatus");
+        const orderPayment = document.getElementById("orderPayment")
+        const feeShip = document.getElementById("feeShip");
+        const totalAmount = document.getElementById("totalPayable");
+        const customerName = document.getElementById("customerName");
+        const customerPhone = document.getElementById("customerPhone");
+        const customerAddress = document.getElementById("customerAddress");
+        const discountVoucher =   document.getElementById('discount');
+        const customerEmail = "hoductrihieu@gmail.com";
+
+        if (!orderID || !orderStatus || !feeShip || !totalAmount || !customerName || !customerPhone || !customerAddress || !customerEmail || !discountVoucher || !orderPayment) {
+          alert("Một số thông tin hóa đơn thiếu hoặc không tồn tại.");
+          return;
+        }
+
+        function cleanPrice(priceString) {
+          return parseFloat(priceString.replace(/[^\d.-]/g, '').replace(",", "."));
+        }
+
+        function formatPrice(price) {
+          const formattedPrice = price.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ' ₫';
+          return formattedPrice;
+        }
+
+        // Clean feeShip and totalAmount values for calculation
+        const cleanedFeeShip = cleanPrice(feeShip.innerText);
+        const cleanedTotalAmount = cleanPrice(totalAmount.innerText);
+        const totalElements = document.querySelectorAll('[id^="total-"]');
+        const quantityElements = document.querySelectorAll('.quantity-input');
+
+        const products = Array.from(totalElements).map((totalElement, index) => {
+          const row = totalElement.closest('tr');
+          const productName = row.querySelector('td:nth-child(3)').innerText;
+          const quantityInput = quantityElements[index];
+          const quantity = quantityInput ? quantityInput.value : 0;
+          const totalPrice = cleanPrice(totalElement.innerText);
+          const formattedTotalPrice = formatPrice(totalPrice);
+          return {
+            productName,
+            quantity,
+            formattedTotalPrice
+          };
+        });
+
+        const formattedFeeShip = formatPrice(cleanedFeeShip);
+        const formattedTotalAmount = formatPrice(cleanedTotalAmount);
+        const discountValue = cleanPrice(discountVoucher.innerText);
+        const formattedDiscount = formatPrice(discountValue);
+
+        fetch("http://localhost:3000/email/sendInvoiceEmail", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            orderID: orderID.innerText,
+            orderPayment: orderPayment.innerText,
+            orderStatus: orderStatus.innerText,
+            feeShip: formattedFeeShip,
+            totalAmount: formattedTotalAmount,
+            customerName: customerName.innerText,
+            customerPhone: customerPhone.innerText,
+            customerAddress: customerAddress.innerText,
+            email: customerEmail,
+            discountVoucher: formattedDiscount,
+            products: products
+          })
+        })
+                .then(response => response.json())
+                .then(data => {
+                  alert(data.message);
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  alert("Đã có lỗi xảy ra!");
+                });
+      });
+
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const username = sessionStorage.getItem("username"); // Lấy username từ Session Storage
+        if (username) {
+          console.log("Username found in Session Storage:", username);
+          document.getElementById("username-display").innerText = username; // Hiển thị lại
+        } else {
+          console.log("No username found. Redirecting to login page.");
+          window.location.href = "/login"; // Chuyển hướng về trang đăng nhập nếu không có username
+        }
+      });
+
+
+      function logout() {
+        sessionStorage.removeItem("username"); // Xóa username khỏi Session Storage
+        console.log("Username removed from Session Storage");
+        window.location.href = "/login"; // Chuyển hướng về trang đăng nhập
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+
+<link th:href="@{/css/MyWishList.css}" rel="stylesheet">
+
+<div class="wishlist-container container ">
+  <h2 class="mb-4">My Wishlist</h2>
+  <div class="wishlist-items">
+    <!-- Wishlist Item 1 -->
+    <div class="wishlist-item d-flex align-items-center border-bottom py-3">
+      <div class="wishlist-item__image-wrapper me-3">
+        <img src="../images/product1.jpg" alt="Product Image" class="wishlist-item__image img-fluid">
+      </div>
+      <div class="wishlist-item__details flex-grow-1">
+        <h4 class="wishlist-item__name mb-1">Diamond Halo Studio</h4>
+        <p class="wishlist-item__attributes text-muted mb-1">Color: Blue | Size: M</p>
+        <p class="wishlist-item__price mb-0">
+          <span class="wishlist-item__current-price">$575.00</span>
+          <span class="wishlist-item__original-price">$775.00</span>
+        </p>
+      </div>
+      <div class="wishlist-item__actions text-end">
+        <button class="wishlist-item__btn wishlist-item__btn--add mb-2">
+          <i class="fas fa-cart-plus"></i> Add to Cart
+        </button>
+        <button class="wishlist-item__btn wishlist-item__btn--remove">
+          <i class="fas fa-trash"></i> Remove
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

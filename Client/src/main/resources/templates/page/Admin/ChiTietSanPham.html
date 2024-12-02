@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            position: fixed;
+            width: 16.66%;
+            background-color: #343a40;
+        }
+        .sidebar .nav-link {
+            color: #fff;
+        }
+        .main-content {
+            margin-left: 16.66%;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+        }
+        #imagePreview {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            padding: 5px;
+            display: none;
+        }
+        #editImagePreview {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+        .color-size-group {
+            display: flex;
+            justify-content: space-between;
+        }
+        .sidebar .nav-link.active-border {
+            border-left: 4px solid #17a2b8;
+            background-color: #495057;
+            color: #ffffff;
+        }
+        .styleUser{
+            margin-top: 50%;
+            color: #fff;
+        }
+
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1050;
+        }
+
+        .modal-dialog {
+            background-color: white;
+            border-radius: 5px;
+            width: 50%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="sidebar col-md-2 d-none d-md-block">
+            <div class="sidebar-sticky">
+                <h4 class="text-light text-center mt-4">AdminAD</h4>
+                <ul class="nav flex-column mt-3">
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-light" href="http://localhost:3000/admin/orders/Home" onclick="setActive(this)">Home</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-light" href="http://localhost:3000/admin/users/list" onclick="setActive(this)">Thành viên</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-light" href="http://localhost:3000/page/admin/reviews" onclick="setActive(this)">Đánh giá</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-light" href="http://localhost:3000/page/admin/products" onclick="setActive(this)">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-light" href="http://localhost:3000/admin/orders/view" onclick="setActive(this)">Đơn hàng</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-light" href="http://localhost:3000/admin/vouchers/view" onclick="setActive(this)">Khuyến Mãi</a>
+                    </li>
+                </ul>
+                <div class="styleUser text-center" style="margin-top: 110%">
+                    <h6 id="username-display"></h6>
+                    <button class="btn btn-danger stylebtnDangXuat" onclick="logout()">Đăng Xuất</button>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<!-- Chi tiết sản phẩm -->
+<div id="productDetailForm" class="container-fluid" style=" width: 100%; height: 100vh; overflow-y: auto;">
+    <h1 class="text-center mb-4">Chi tiết sản phẩm</h1>
+
+    <!-- Card lớn hơn với chiều rộng 60% -->
+    <div class="card" style="width: 60%; margin: 0 auto;">
+        <div class="card-header">Thông tin sản phẩm</div>
+        <div class="card-body">
+            <div class="form-group row">
+                <div class="col-md-2">
+                    <label>Mã sản phẩm</label>
+                    <p th:text="${product.productID}"></p>
+                </div>
+                <div class="col-md-2">
+                    <label>Tên sản phẩm</label>
+                    <p th:text="${product.productName}"></p>
+                </div>
+                <div class="col-md-2">
+                    <label>Giá sản phẩm</label>
+                    <p th:text="${product.price}"></p>
+                </div>
+                <div class="col-md-2">
+                    <label>Danh mục</label>
+                    <p th:text="${product.category.name}"></p>
+                </div>
+                <div class="col-md-2">
+                    <label>Mô tả sản phẩm</label>
+                    <p th:text="${product.description}"></p>
+                </div>
+
+                <div class="col-md-2">
+                    <label>Hình ảnh sản phẩm</label>
+                    <th:block th:each="image : ${product.imageURL}">
+                        <img th:src="@{http://localhost:8080/images/{image}(image=${image})}" alt="Hình ảnh sản phẩm"
+                             style="width:100%; height:auto; border:1px solid #ccc; padding:5px;" />
+                    </th:block>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Card cho bảng chi tiết (Size, Color, Quantity) -->
+    <div class="card mt-4" style="width: 60%; margin: 0 auto;">
+        <div class="card-header">Chi tiết sản phẩm
+
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="col-md-4">Kích thước</th>
+                    <th class="col-md-4">Màu sắc</th>
+                    <th class="col-md-4">Số lượng</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Lặp qua danh sách productDetails -->
+                <tr th:each="detail : ${product.productDetails}">
+                    <td style="display:none;" th:text="${detail.productDetailID}"></td>
+                    <td th:text="${detail.size}"></td>
+                    <td th:text="${detail.color}"></td>
+                    <td th:text="${detail.stockQuantity}"></td>
+                    <!-- Edit Button -->
+                    <td>
+
+                        <button type="button" class="btn btn-info btn-sm" onclick="showEditDetailModal(this)">Sửa</button>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Nút thêm chi tiết mới -->
+    <button type="button" class="btn btn-success mt-3" onclick="showAddDetailModal()" style="margin-left: 30%;">+ Thêm mới</button>
+    <!-- Nút quay lại -->
+    <button type="button" class="btn btn-secondary mt-3" style="margin-left: 30%;" id="goBackButton">Quay lại</button>
+
+</div>
+
+<!-- Modal Thêm Chi Tiết Mới -->
+<div id="addDetailModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm chi tiết sản phẩm</h5>
+                <button type="button" class="close" onclick="closeAddDetailModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addDetailForm">
+                    <div class="form-group">
+                        <label for="detailSize">Kích thước</label>
+                        <select class="form-control" id="detailSize" name="size" required>
+                            <!-- Các giá trị kích thước từ enum Size -->
+                            <option value="SIZE_36">36</option>
+                            <option value="SIZE_37">37</option>
+                            <option value="SIZE_38">38</option>
+                            <option value="SIZE_39">39</option>
+                            <option value="SIZE_40">40</option>
+                            <option value="SIZE_41">41</option>
+                            <option value="SIZE_42">42</option>
+                            <option value="SIZE_43">43</option>
+                            <option value="SIZE_44">44</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="detailColor">Màu sắc</label>
+                        <select class="form-control" id="detailColor" name="color" required>
+                            <!-- Các giá trị màu sắc từ enum Color -->
+                            <option value="RED">Red</option>
+                            <option value="GREEN">Green</option>
+                            <option value="BLUE">Blue</option>
+                            <option value="YELLOW">Yellow</option>
+                            <option value="BLACK">Black</option>
+                            <option value="WHITE">White</option>
+                            <option value="PINK">Pink</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="detailQuantity">Số lượng</label>
+                        <input type="number" class="form-control" id="detailQuantity" name="quantity" required>
+                    </div>
+                </form>
+                <div id="error-message" style="color: red; display: none;"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveDetail()">Lưu</button>
+                <button type="button" class="btn btn-secondary" onclick="closeAddDetailModal()">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Sưa -->
+<div id="editDetailModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sửa số lượng</h5>
+                <button type="button" class="close" onclick="closeEditDetailModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editDetailForm">
+
+                    <input type="hidden" id="editProductDetailID">
+
+                    <div class="form-group">
+                        <label for="detailQuantity">Số lượng</label>
+                        <input type="number" class="form-control" id="editdetailQuantity" name="quantity" required>
+                    </div>
+                </form>
+                <div id="editerror-message" style="color: red; display: none;"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveEditDetail()">Lưu</button>
+                <button type="button" class="btn btn-secondary" onclick="closeEditDetailModal()">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function setActive(element) {
+        let menuItems = document.querySelectorAll('.sidebar .nav-link');
+        menuItems.forEach(item => item.classList.remove('active-border')); // Xóa lớp active-border khỏi tất cả các mục
+        element.classList.add('active-border'); // Thêm lớp active-border cho mục được chọn
+    }
+
+    function showAddDetailModal() {
+        document.getElementById('addDetailModal').style.display = 'flex';
+    }
+
+    function closeAddDetailModal() {
+        document.getElementById('addDetailModal').style.display = 'none';
+    }
+    function closeEditDetailModal() {
+        document.getElementById('editDetailModal').style.display = 'none';
+    }
+    function showEditDetailModal(button) {
+        const productDetailID = button.closest('tr').querySelector('td').textContent.trim();
+        document.getElementById('editProductDetailID').value = productDetailID;
+        document.getElementById('editDetailModal').style.display = 'flex';
+    }
+
+    function saveDetail() {
+        // Lấy giá trị từ form
+        const size = document.getElementById('detailSize').value;
+        const color = document.getElementById('detailColor').value;
+        const quantity = document.getElementById('detailQuantity').value;
+
+        // Lấy productID từ phần tử <p> trong thông tin sản phẩm
+        const productID = document.querySelector('.card .card-body .form-group .col-md-2 p').textContent.trim();
+
+        // Tạo đối tượng dữ liệu cần gửi theo đúng định dạng JSON
+        const productDetail = {
+            color: color,
+            size: size,
+            stockQuantity: parseInt(quantity), // Chuyển quantity thành số
+            product: {
+                productID: parseInt(productID) // Chuyển productID thành số
+            }
+        };
+
+        // Gửi request POST tới API
+        fetch('http://localhost:8080/products-details', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(productDetail)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    // Lấy thông tin lỗi từ server
+                    return response.text().then(errorText => {
+                        try {
+                            const errorData = JSON.parse(errorText); // Parse JSON nếu có thể
+                            throw new Error(errorData.message || errorData.join(", "));
+                        } catch {
+                            throw new Error("Lỗi: " + errorText); // Nếu không parse được, hiển thị lỗi gốc
+                        }
+                    });
+                }
+                return response.json(); // Phản hồi thành công
+            })
+            .then(data => {
+                alert('Chi tiết sản phẩm đã được thêm thành công!');
+                console.log(data);
+                closeAddDetailModal(); // Đóng modal
+                window.location.reload(); // Reload trang
+            })
+            .catch(error => {
+                console.error('Lỗi khi thêm chi tiết sản phẩm:', error.message);
+
+                // Hiển thị lỗi lên giao diện
+                const errorMessageElement = document.getElementById('error-message');
+                errorMessageElement.textContent = error.message; // Cập nhật thông báo lỗi
+                errorMessageElement.style.display = 'block'; // Hiển thị phần tử lỗi
+            });
+
+    }
+
+
+    function saveEditDetail() {
+        const productDetailID = document.getElementById('editProductDetailID').value;
+        const quantity = document.getElementById('editdetailQuantity').value;
+
+        const productDetail = {
+            stockQuantity: parseInt(quantity)
+        };
+
+        fetch(`http://localhost:8080/products-details/detail/${productDetailID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(productDetail)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(errorText => {
+                        throw new Error(errorText);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Cập nhật số lượng thành công!');
+                closeEditDetailModal();
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Lỗi:', error.message);
+                document.getElementById('editerror-message').textContent = error.message;
+                document.getElementById('editerror-message').style.display = 'block';
+            });
+    }
+
+    // Xử lý nút quay lại
+    document.getElementById("goBackButton").addEventListener("click", function () {
+        window.history.back();
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const username = sessionStorage.getItem("username"); // Lấy username từ Session Storage
+        if (username) {
+            console.log("Username found in Session Storage:", username);
+            document.getElementById("username-display").innerText = username; // Hiển thị lại
+        } else {
+            console.log("No username found. Redirecting to login page.");
+            window.location.href = "/login"; // Chuyển hướng về trang đăng nhập nếu không có username
+        }
+    });
+
+
+    function logout() {
+        sessionStorage.removeItem("username"); // Xóa username khỏi Session Storage
+        console.log("Username removed from Session Storage");
+        window.location.href = "/login"; // Chuyển hướng về trang đăng nhập
+    }
+
+</script>
+
+</body>
+</html>

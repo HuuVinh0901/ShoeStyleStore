@@ -1,0 +1,648 @@
+/* To ensure responsiveness */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Xóa thanh cuộn ngang */
+}
+
+/* Block cho header */
+.header {
+  background: url("../images/misc/mountain-background.jpg") no-repeat center center;
+  background-size: cover;
+  height: 600px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Style cho ảnh đôi boot */
+.header__boot-image {
+  width: 380px;
+  position: relative;
+  bottom: 20px;
+  animation: header__boot-bounce 2s ease infinite;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(50px);
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
+}
+.header__boot-image--show {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.5s;
+}
+
+/* Bounce animation */
+@keyframes header__boot-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Slogan Styling */
+.slogan {
+  position: absolute;
+  color: white;
+  font-weight: bold;
+  opacity: 0;
+  animation: fade-slide-up 1.5s ease-in-out forwards;
+}
+
+/* Step in Style */
+.slogan-top {
+  font-size: 4rem;
+  top: 20%;
+  animation: slide-in-right 1.5s forwards;
+  z-index: 1; /* Đảm bảo nằm phía trên núi */
+}
+
+/* Conquer Every Journey */
+.slogan-bottom {
+  font-size: 7rem;
+  color: rgba(255, 255, 255, 0.7);
+  bottom: 40%;
+  animation: slide-in-left 1.5s forwards;
+  animation-delay: 1s;
+  z-index: 0; /* Đảm bảo nằm phía sau đôi boot */
+}
+
+/* Keyframes cho hiệu ứng fade-slide-up */
+@keyframes fade-slide-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide-in từ phải qua */
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide-in từ trái qua */
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.featured-items h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 75px;
+}
+
+.featured-item {
+  border: 1px dashed #ccc;
+  transition: transform 0.3s ease;
+}
+
+.featured-item:hover {
+  transform: scale(1.05);
+}
+
+.featured-item img {
+  max-width: 100%;
+  transition: transform 0.3s ease;
+}
+
+.featured-item img:hover {
+  transform: scale(1.1);
+}
+
+.old-price s {
+  font-size: 1rem;
+  color: #999;
+}
+
+.old-price span {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.banner {
+  width: 100vw; /* Take up full viewport width */
+  overflow: hidden; /* Hide any overflow */
+  display: flex;
+  justify-content: center;
+}
+
+.banner img {
+  width: 100%;
+  height: auto;
+}
+
+.product-list {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.product-card {
+  width: 200px;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.product-name {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.product-price {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.old-price s {
+  font-size: 0.9rem;
+  color: #999;
+  margin-right: 5px;
+}
+
+.old-price span {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #28a745;
+}
+
+/* Service container styling */
+.service-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 50px 0;
+  background-color: #fff;
+}
+
+/* Individual service box styling */
+.service-box {
+  text-align: center;
+  padding: 30px;
+  width: 300px;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.service-box:hover {
+  transform: translateY(-5px);
+}
+
+/* Icon styling */
+.service-icon {
+  font-size: 50px;
+  color: #ddd;
+  margin-bottom: 20px;
+}
+
+/* Title styling */
+.service-title {
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+/* Description styling */
+.service-description {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.feature-product-section {
+  background-color: #123456;
+  padding: 50px 0;
+  color: #fff;
+  margin-top: 150px;
+  margin-bottom: 100px;
+}
+.feature-product-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 100%; /* Đảm bảo tràn toàn màn hình */
+  position: relative; /* Cần thiết cho hình ảnh tràn */
+  padding: 20px;
+}
+
+.feature-product-content {
+  flex: 1;
+  max-width: 30%;
+  padding: 20px;
+  margin-left: 200px;
+}
+
+.feature-product-content h3 {
+  font-size: 18px;
+  color: #77c043;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.feature-product-content h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.buy-now-btn {
+  background-color: #77c043;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.buy-now-btn:hover {
+  background-color: #5a9a35;
+}
+
+.feature-product-image {
+  flex: 1;
+  width: 550px;
+  height: 550px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 1;
+  top: -40%;
+}
+
+.feature-product-image img {
+  width: 120%; /* Hình ảnh sẽ chiếm toàn bộ kích thước khung */
+  height: 120%; /* Hình ảnh sẽ chiếm toàn bộ chiều cao khung */
+  object-fit: contain; /* Đảm bảo hình ảnh vừa khung và không méo */
+}
+
+.feature-product-details {
+  flex: 1;
+  max-width: 30%;
+  padding: 20px;
+}
+
+.feature-product-details ul {
+  list-style: none;
+  padding: 0;
+}
+
+.feature-product-details li {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.feature-product-details li span {
+  color: #77c043;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.divider-section {
+  text-align: center;
+  background: linear-gradient(135deg, #0047ab, #77c043); /* Gradient từ xanh đậm sang xanh lá */
+  color: white; /* Màu chữ trắng */
+  padding: 40px 0; /* Khoảng cách trên dưới */
+  margin: 30px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+}
+
+.divider-section h2 {
+  font-size: 28px; /* Cỡ chữ lớn */
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-transform: uppercase; /* Viết hoa chữ */
+}
+
+.divider-section p {
+  font-size: 16px;
+  font-weight: 300;
+  color: #f1f1f1; /* Màu chữ nhạt hơn */
+}
+
+/* Styling for brand section */
+.brand-section {
+  display: flex;
+  justify-content: space-evenly; /* Đều khoảng cách giữa các logo */
+  align-items: center;
+  gap: 0; /* Xóa khoảng cách giữa các item */
+  /* background-color: #0047ab; Nền xanh */
+  height: 250px; /* Cố định chiều cao */
+}
+
+/* Ô chứa logo */
+.brand-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15vw; /* Set width relative to viewport */
+  height: 19vh; /* Set height relative to viewport */
+  /* background: linear-gradient(135deg, #0047ab, #00aaff);Hiệu ứng gradient */
+  border-radius: 8px; /* Bo tròn góc */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.brand-item:hover {
+  transform: scale(1.1); /* Phóng to nhẹ khi hover */
+  box-shadow: 0 8px 12px rgba(255, 255, 255, 0.2); /* Hiệu ứng bóng */
+}
+
+/* Logo bên trong ô */
+.brand-item img {
+  max-width: 80%; /* Logo chiếm tối đa 80% kích thước ô */
+  max-height: 80%;
+  filter: brightness(1) invert(0); /* Bình thường hiển thị màu logo gốc */
+  transition:
+    filter 0.3s ease,
+    transform 0.3s ease;
+}
+
+.brand-item:hover img {
+  filter: brightness(1) invert(0.5); /* Khi hover, đổi màu logo thành đen */
+  transform: scale(1.1); /* Phóng to logo khi hover */
+}
+
+/* Styling for product section */
+.product-section {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px 0;
+}
+.product-card {
+  width: 16vw; /* Set width relative to viewport */
+  height: 30vh; /* Set height relative to viewport */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+}
+.product-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image covers the whole card */
+}
+
+/*Tab*/
+.tab-products__title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.tab-menu {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.tab-menu__item {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 15px;
+  color: #333;
+  transition:
+    color 0.3s,
+    border-bottom 0.3s;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-menu__item--active,
+.tab-menu__item:hover {
+  color: #ffc107;
+  border-bottom: 3px solid #ffc107;
+}
+.tab-menu__item:focus {
+  outline: none; /* Xóa viền màu đen khi tab được focus */
+}
+
+.tab-products__title {
+  margin-bottom: 20px;
+}
+
+.tab-products__title h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.tab-products__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Ensures buttons are spaced outside the list */
+  position: relative;
+  max-width: 950px; /* Ensure the container has a fixed width */
+  margin: 0 auto; /* Center the container */
+  padding: 0 20px; /* Add some padding to the sides */
+}
+
+.tab-products__list {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping to a new row */
+  gap: 15px; /* Space between product cards */
+  overflow: hidden; /* Hide extra products */
+  scroll-behavior: smooth; /* Enable smooth scrolling */
+  width: 100%; /* Make sure the list fits the container */
+  max-width: calc(4 * 200px + 60px); /* Allow only 4 items (250px each + 3 gaps of 20px) */
+  margin: 0 auto; /* Center the list */
+  padding: 0 10px; /* Add padding for spacing */
+  box-sizing: border-box; /* Ensure padding is included in width calculation */
+}
+
+/* Product Card Styling */
+.tab-product-card {
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  cursor: pointer;
+  min-width: 200px;
+  text-align: center;
+}
+
+.tab-product-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Product Image Wrapper */
+.tab-product-card__image-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 90%;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  border-width: 2px;
+}
+
+/* Product Image */
+.tab-product-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effect */
+.tab-product-card__image-wrapper:hover .tab-product-card__image {
+  transform: scale(1.1);
+}
+
+
+.tab-product-card__discount-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #28a745;
+  color: white;
+  padding: 5px 8px;
+  font-size: 0.9rem;
+  border-radius: 3px;
+}
+
+/* Product Info */
+.tab-product-card__info {
+  padding: 10px;
+}
+
+.tab-product-card__name {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 10px 0 5px;
+}
+
+.tab-product-card__category {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.tab-product-card__price {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.tab-product-card__price--old {
+  text-decoration: line-through;
+  color: #aaa;
+  font-size: 0.9rem;
+  margin-left: 5px;
+}
+
+/* Add to Cart Button (hidden by default) */
+.tab-product-card__actions {
+  position: absolute;
+  bottom: -40px; /* Hidden by default */
+  left: 0;
+  right: 0;
+  text-align: center;
+  transition:
+    bottom 0.3s ease,
+    opacity 0.3s ease;
+  opacity: 0;
+}
+
+.tab-product-card:hover .tab-product-card__actions {
+  bottom: 10px; /* Slide up on hover */
+  opacity: 1;
+}
+
+/* Add to Cart Button Style */
+.tab-product-card__add-to-cart {
+  background-color: #ffc107;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tab-product-card__add-to-cart:hover {
+  background-color: #e0a800;
+}
+
+/* Navigation Buttons */
+.tab-product-list__button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  font-size: 2rem;
+  color: #333;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 10;
+}
+
+.tab-product-list__button--prev {
+  left: 0;
+}
+
+.tab-product-list__button--next {
+  right: 0;
+}
+
+.tab-product-list__button:hover {
+  color: #000;
+}
+
+.tab-product-list__button:focus {
+  outline: none;
+}

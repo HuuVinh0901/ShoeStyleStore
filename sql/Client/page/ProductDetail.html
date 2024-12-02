@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="../css/ProductDetail.css" />
+</head>
+
+<body class="page-product-detail">
+    <div id="header"></div>
+    <div id="breadcrumb-container"></div>
+    <div class="container mt-5">
+        <div class="product-details">
+            <!-- Product Image and Thumbnails -->
+            <div class="product-image">
+                <img src="../images/product1.jpg" alt="Main Product Image" id="mainProductImage" />
+                <div class="thumbnail-images">
+                    <img src="../images/product2.jpg" alt="Product Thumbnail"
+                        onclick="changeImage('../images/product2.jpg')" class="active" />
+                    <img src="../images/product1.jpg" alt="Product Thumbnail"
+                        onclick="changeImage('../images/product1.jpg')" />
+                    <img src="../images/product1.jpg" alt="Product Thumbnail"
+                        onclick="changeImage('../images/product1.jpg')" />
+                    <img src="../images/product1.jpg" alt="Product Thumbnail"
+                        onclick="changeImage('../images/product1.jpg')" />
+                </div>
+            </div>
+
+            <!-- Product Information -->
+            <div class="product-info">
+                <h6>Nike / Running Shoes</h6>
+                <h1>Nike Air Force 1 '07</h1>
+                <p>⭐⭐⭐⭐⭐ <span>(2.5k Reviews)</span></p>
+                <div class="product-tags">
+                    <span>Running Shoes</span>
+                    <span>Casual Sneakers</span>
+                    <span>Limited Edition</span>
+                </div>
+
+                <h5 class="mt-4">Product Description</h5>
+                <p>
+                    Classic and comfortable, you'll want to wear these AF-1s time after
+                    time...
+                </p>
+
+                <!-- Price and Discount -->
+                <p class="product-price">$1,400,000</p>
+
+                <!-- Size Chart -->
+                <h5>Size Chart</h5>
+                <div class="size-options">
+                    <div class="size-box">38</div>
+                    <div class="size-box">39</div>
+                    <div class="size-box">40</div>
+                    <div class="size-box">41</div>
+                    <div class="size-box">42</div>
+                    <div class="size-box">43</div>
+                    <div class="size-box">44</div>
+                </div>
+
+                <!-- Quantity Control -->
+                <h5 class="mt-4">Item Quantity</h5>
+                <div class="quantity-control">
+                    <button onclick="decreaseQuantity()">-</button>
+                    <span id="quantity">1</span>
+                    <button onclick="increaseQuantity()">+</button>
+                </div>
+
+                <!-- Buy Now and Add to Cart Buttons in One Row -->
+                <div class="btn-container">
+                    <button class="btn-buy-now">Buy Now</button>
+                    <button class="btn-add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+        <!-- Description and Reviews Tabs -->
+        <div class="description">
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('description')">
+                    DESCRIPTION
+                </div>
+                <div class="tab" onclick="showTab('review')">REVIEWS</div>
+            </div>
+
+            <!-- Description Content -->
+            <div id="descriptionContent" class="description-content">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
+                    commodo ligula eget dolor. Aenean massa. Cum sociis natoque
+                    penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                    Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+                    Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
+                    aliquet nec, vulputate eget, arcu. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Aenean commodo ligula eget dolor.
+                    Aenean massa. Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit. Aenean commodo ligula eget dolor.
+                </p>
+
+                <img src="../images/product1.jpg" alt="Product Image 1" />
+
+                <p>
+                    Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
+                    montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
+                    sociis natoque penatibus et magnis dis parturient montes, nascetur
+                    ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit. Aenean commodo ligula eget dolor. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit.
+                </p>
+
+                <img src="../images/product2.jpg" alt="Product Image 2" />
+
+                <p>
+                    Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
+                    montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
+                    sociis natoque penatibus et magnis dis parturient montes, nascetur
+                    ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit. Aenean commodo ligula eget dolor. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit.
+                </p>
+            </div>
+
+            <!-- Review Content -->
+            <div id="reviewContent" class="reviewContent" style="display: none">
+                <!-- Summary Section -->
+                <div class="review-summary">
+                    <div class="average-rating">4.0</div>
+                    <div class="star-rating">★</div>
+                    <div class="rating-distribution">
+                        <!-- Rating Distribution Bars -->
+                        <div class="rating-row">
+                            <span>5</span>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 50%"></div>
+                            </div>
+                            <span>50.0%</span>
+                        </div>
+                        <div class="rating-row">
+                            <span>4</span>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 0%"></div>
+                            </div>
+                            <span>0.0%</span>
+                        </div>
+                        <div class="rating-row">
+                            <span>3</span>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 50%"></div>
+                            </div>
+                            <span>50.0%</span>
+                        </div>
+                        <div class="rating-row">
+                            <span>2</span>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 0%"></div>
+                            </div>
+                            <span>0.0%</span>
+                        </div>
+                        <div class="rating-row">
+                            <span>1</span>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 0%"></div>
+                            </div>
+                            <span>0.0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Review Link -->
+                <div class="add-review">+ Add Review</div>
+
+                <!-- Review List -->
+                <div class="review-list">
+                    <div class="review-item">
+                        <div class="avatar">A</div>
+                        <div class="review-content">
+                            <div>
+                                <span class="review-author">Anonymous User</span>
+                                <span class="review-date"> - 12/27/2022 - 1:10:37 AM</span>
+                            </div>
+                            <div class="star-rating">★★★★☆</div>
+                            <p class="review-text">
+                                Some information is outdated. Could do better!
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="avatar" style="background-color: #9c27b0">C</div>
+                        <div class="review-content">
+                            <div>
+                                <span class="review-author">Chen Chen</span>
+                                <span class="review-date"> - 12/27/2022 - 1:06:32 AM</span>
+                            </div>
+                            <div class="star-rating">★★★★★</div>
+                            <p class="review-text">
+                                <em>(Edited)</em> Loved the structure and flow. Thank you!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="related-products">
+            <h2 class="related-products__title">Related Products</h2>
+            <button class="related-products__button related-products__button--prev" onclick="scrollProducts('prev')">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="related-products__list">
+                <!-- Product Card 1 -->
+                <div class="product-card">
+                    <div class="product-card__image-wrapper">
+                        <img src="../images/product1.jpg" alt="Product 1" class="product-card__image">
+                        <span class="product-card__discount-badge">-30%</span>
+                    </div>
+                    <div class="product-card__info">
+                        <h3 class="product-card__name">Sneakers De Sport Running</h3>
+                        <p class="product-card__category">Shoes</p>
+                        <p class="product-card__price">$70.00 <span class="product-card__price--old">$100.00</span></p>
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="product-card">
+                    <div class="product-card__image-wrapper">
+                        <img src="../images/product1.jpg" alt="Product 2" class="product-card__image">
+                        <span class="product-card__discount-badge">-20%</span>
+                    </div>
+                    <div class="product-card__info">
+                        <h3 class="product-card__name">Professional Sports Shoes</h3>
+                        <p class="product-card__category">Shoes</p>
+                        <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <!-- Add more product cards as needed -->
+                <div class="product-card">
+                    <div class="product-card__image-wrapper">
+                        <img src="../images/product2.jpg" alt="Product 2" class="product-card__image">
+                        <span class="product-card__discount-badge">-20%</span>
+                    </div>
+                    <div class="product-card__info">
+                        <h3 class="product-card__name">Professional Sports Shoes</h3>
+                        <p class="product-card__category">Shoes</p>
+                        <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card__image-wrapper">
+                        <img src="../images/product2.jpg" alt="Product 2" class="product-card__image">
+                        <span class="product-card__discount-badge">-20%</span>
+                    </div>
+                    <div class="product-card__info">
+                        <h3 class="product-card__name">Professional Sports Shoes</h3>
+                        <p class="product-card__category">Shoes</p>
+                        <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card__image-wrapper">
+                        <img src="../images/product2.jpg" alt="Product 2" class="product-card__image">
+                        <span class="product-card__discount-badge">-20%</span>
+                    </div>
+                    <div class="product-card__info">
+                        <h3 class="product-card__name">Professional Sports Shoes</h3>
+                        <p class="product-card__category">Shoes</p>
+                        <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card__image-wrapper">
+                        <img src="../images/product2.jpg" alt="Product 2" class="product-card__image">
+                        <span class="product-card__discount-badge">-20%</span>
+                    </div>
+                    <div class="product-card__info">
+                        <h3 class="product-card__name">Professional Sports Shoes</h3>
+                        <p class="product-card__category">Shoes</p>
+                        <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card__image-wrapper">
+                        <img src="../images/product1.jpg" alt="Product 2" class="product-card__image">
+                        <span class="product-card__discount-badge">-20%</span>
+                    </div>
+                    <div class="product-card__info">
+                        <h3 class="product-card__name">Professional Sports Shoes</h3>
+                        <p class="product-card__category">Shoes</p>
+                        <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card__image-wrapper">
+                        <img src="../images/product1.jpg" alt="Product 2" class="product-card__image">
+                        <span class="product-card__discount-badge">-20%</span>
+                    </div>
+                    <div class="product-card__info">
+                        <h3 class="product-card__name">Professional Sports Shoes</h3>
+                        <p class="product-card__category">Shoes</p>
+                        <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card__image-wrapper">
+                        <img src="../images/product1.jpg" alt="Product 2" class="product-card__image">
+                        <span class="product-card__discount-badge">-20%</span>
+                    </div>
+                    <div class="product-card__info">
+                        <h3 class="product-card__name">Professional Sports Shoes</h3>
+                        <p class="product-card__category">Shoes</p>
+                        <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="related-products__button related-products__button--next" onclick="scrollProducts('next')"><i
+                    class="fas fa-chevron-right"></i></button>
+        </div>
+
+    </div>
+    
+    <div id="footer"></div>
+    <script src="../js/script.js"></script>
+    <script src="../js/ProductDetail.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

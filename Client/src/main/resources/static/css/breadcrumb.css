@@ -1,0 +1,14 @@
+.breadcrumb {
+    display: flex;
+    margin-top: 70px;
+    justify-content: center; /* Căn giữa breadcrumb */    
+    padding: 10px 20px; /* Thêm khoảng cách */
+    list-style: none; /* Xóa bullet của danh sách */
+}
+.breadcrumb-item a {
+    text-decoration: none; /* Xóa gạch chân */
+    color: inherit; /* Sử dụng màu của breadcrumb-item */
+    font-weight: bold; /* Font đậm */
+}
+
+

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          rel="stylesheet"
+  />
+  <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+
+  <style>
+    /* Sidebar styling */
+    .sidebar {
+      min-height: 100vh;
+      position: fixed;
+      width: 16.66%;
+      background-color: #343a40;
+    }
+    .sidebar .nav-link {
+      color: #fff;
+    }
+    .sidebar .nav-link.active-border {
+      border-left: 4px solid #17a7be;
+      background-color: #495057;
+      color: #ffffff;
+    }
+    .styleUser {
+      margin-top: 20%;
+      color: #fff;
+    }
+    .styleForm {
+      width: 50%;
+      margin: 0 auto;
+    }
+    .main-content {
+      margin-left: 16.66%;
+      padding-top: 20px;
+    }
+    .dashboard-card {
+      color: white;
+      font-weight: bold;
+    }
+    .bg-blue {
+      background-color: #17a2b8;
+    }
+    .bg-green {
+      background-color: #28a745;
+    }
+    .bg-orange {
+      background-color: #fd7e14;
+    }
+    .bg-red {
+      background-color: #dc3545;
+    }
+    .card .icon {
+      font-size: 40px;
+      opacity: 0.3;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .section-title {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .chart_1{
+      width: 400px !important;
+      height: 400px !important;
+
+    }
+    .table {
+      background-color: #f9f9f9;
+    }
+
+    .table th, .table td {
+      text-align: center;
+    }
+    .table img {
+      border-radius: 5px;
+    }
+    .dashboard-card {
+      border-radius: 10px;
+      color: white;
+      padding: 20px;
+      position: relative;
+    }
+    .bg-processing {
+      background-color: #ffc107;
+    }
+    .bg-shipped {
+      background-color: #17a2b8;
+    }
+    .bg-delivered {
+      background-color: #28a745;
+    }
+    .bg-return {
+      background-color: #dc3545;
+    }
+    .card .icon {
+      font-size: 30px;
+      opacity: 0.7;
+    }
+    .section-title {
+      font-size: 14px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    a.text-white {
+      font-size: 12px;
+      text-decoration: none;
+    }
+    .card h4, .card h5, .card p {
+      margin: 0;
+    }
+  .styleFrameChart{
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <nav class="sidebar col-md-2 d-none d-md-block">
+      <div class="sidebar-sticky">
+        <h4 class="text-light text-center mt-4">AdminAD</h4>
+        <ul class="nav flex-column mt-3">
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/admin/orders/Home" onclick="setActive(this)">Home</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/admin/users/list" onclick="setActive(this)">Thành viên</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/page/admin/reviews" onclick="setActive(this)">Đánh giá</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/page/admin/products" onclick="setActive(this)">Sản phẩm</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/admin/orders/view" onclick="setActive(this)">Đơn hàng</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-light" href="http://localhost:3000/admin/vouchers/view" onclick="setActive(this)">Khuyến Mãi</a>
+          </li>
+        </ul>
+        <div class="styleUser text-center" style="margin-top: 110%">
+          <h6 id="username-display" th:text="${userName}"></h6>
+          <button class="btn btn-danger stylebtnDangXuat" onclick="window.location.href='/logout'">Đăng Xuất</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content col-md-10">
+      <h2 class="mb-4">Quản Trị Website</h2>
+      <div class="row">
+        <!-- Loop qua từng trạng thái và hiển thị thành card -->
+        <div class="col-md-3 mb-4" th:each="entry : ${statistics}">
+          <div
+                  class="card dashboard-card position-relative"
+                  th:classappend="${entry.key} == 'Processing' ? 'bg-processing' :
+                        (${entry.key} == 'Shipped' ? 'bg-shipped' :
+                        (${entry.key} == 'Delivered' ? 'bg-delivered' :
+                        'bg-return'))">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 th:text="${entry.value}">0</h4>
+                  <p th:text="${entry.key}">Status</p>
+                </div>
+                <i th:class="'fas icon ' +
+              (${entry.key} == 'Processing' ? 'fa-spinner' :
+              (${entry.key} == 'Shipped' ? 'fa-truck' :
+              (${entry.key} == 'Delivered' ? 'fa-check-circle' :
+              'fa-undo-alt')))">
+                </i>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Đơn hàng -->
+        <div class="col-md-3 mb-4">
+          <div class="card dashboard-card bg-blue position-relative">
+            <div class="card-body">
+              <div
+                      class="d-flex justify-content-between align-items-center"
+              >
+                <div>
+                  <h4 th:text="${totalOrders}"></h4>
+                  <p>Đơn hàng</p>
+                </div>
+                <i class="fas fa-shopping-bag icon"></i>
+              </div>
+              <div class="section-title">DOANH THU HÔM NAY</div>
+              <h4 ><span id="revenue" th:text="${totalRevenue}"></span></h4>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sản phẩm -->
+        <div class="col-md-3 mb-4">
+          <div class="card dashboard-card bg-red position-relative">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 th:text="${totalOrdersYear}"></h4>
+                  <p>Đơn Hàng</p>
+                </div>
+                <i class="fas fa-chart-pie icon"></i>
+              </div>
+              <div class="section-title">DOANH THU NĂM</div>
+              <h5>
+                <span id="revenueDTYear" th:text="${revenueYear['totalRevenueYear']}"> </span> đ
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main-content col-md-10">
+      <h2>Thống Kê Doanh Thu Dựa Trên Số Đơn Hàng</h2>
+      <form id="revenueForm" class="mb-4">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <div class="form-group">
+                  <label for="startDate" class="form-label">Ngày bắt đầu:</label>
+                  <input type="date" id="startDate" name="startDate" th:value="${startDate}" required class="form-control">
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <div class="form-group">
+                  <label for="endDate" class="form-label">Ngày kết thúc:</label>
+                  <input type="date" id="endDate" name="endDate" th:value="${endDate}" required class="form-control">
+                </div>
+              </div>
+              <div class="col-md-12 mb-3">
+                <button type="submit" class="btn btn-primary w-100">Thống Kê</button>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-6">
+                <p>Tổng doanh thu: <span id="totalRevenue" th:text="${totalRevenue}">...</span> VNĐ</p>
+                <p>Tổng số đơn hàng: <span id="totalOrders" th:text="${totalOrders}">...</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3 styleFrameChart">
+            <canvas id="revenueChart" class="chart_1"></canvas>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="main-content col-md-10">
+          <h2>Best selling products</h2>
+
+          <div class="mb-4">
+            <label for="timeType" class="form-label">Chọn loại thời gian:</label>
+            <select id="timeType" class="form-control w-auto">
+              <option value="day">day</option>
+              <option value="week">week</option>
+              <option value="month">month</option>
+              <option value="year">year</option>
+            </select>
+          </div>
+          <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+              <th>Product name</th>
+              <th>Brand</th>
+              <th>Category</th>
+            </tr>
+            </thead>
+            <tbody id="productsTableBody">
+            </tbody>
+          </table>
+          <div class="pagination-wrapper text-center">
+            <button id="prevPage" class="btn btn-primary" disabled>Previous</button>
+            <button id="nextPage" class="btn btn-primary">Next</button>
+          </div>
+
+    </div>
+
+    <div class="main-content col-md-10">
+      <h2 class="text-center">Top Loyal Customers</h2>
+      <div class="table-container" style="display: flex; justify-content: center; align-items: center; height: 100%;">
+        <table border="1" class="table table-striped table-bordered" style="width: 100%; max-width: 800px;">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Order Count</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="customer : ${loyalCustomer}">
+            <td th:text="${customer['name']}"></td>
+            <td th:text="${customer['userName']}"></td>
+            <td th:text="${customer['email']}"></td>
+            <td th:text="${customer['phone']}"></td>
+            <td th:text="${customer['orderCount']}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // document.addEventListener('DOMContentLoaded', function () {
+  //   var totalRevenue = document.getElementById("totalRevenue").textContent;
+  //   var totalOrders = document.getElementById("totalOrders").textContent;
+  //   console.log(totalOrders)
+  //   var revenueChart;
+  //   function drawChart(totalRevenue, totalOrders) {
+  //     var ctx = document.getElementById('revenueChart').getContext('2d');
+  //     if (revenueChart) {
+  //       revenueChart.destroy();
+  //     }
+  //     revenueChart = new Chart(ctx, {
+  //       type: 'pie',
+  //       data: {
+  //         labels: ['Doanh thu', 'Số đơn hàng'],
+  //         datasets: [{
+  //           label: 'Thông tin thống kê',
+  //           data: [totalRevenue, totalOrders],
+  //           backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+  //           borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+  //           borderWidth: 1
+  //         }]
+  //       },
+  //       options: {
+  //         responsive: true,
+  //         maintainAspectRatio: false,
+  //       }
+  //     });
+  //   }
+  //   drawChart(totalRevenue, totalOrders);
+  //   $('#revenueForm').submit(function(event) {
+  //     event.preventDefault();
+  //
+  //     var startDate = $('#startDate').val();
+  //     var endDate = $('#endDate').val();
+  //
+  //     $.ajax({
+  //       url: '/orders/thong-ke',
+  //       method: 'GET',
+  //       data: {
+  //         startDate: startDate,
+  //         endDate: endDate
+  //       },
+  //       success: function(response) {
+  //         console.log(response);
+  //         var totalRevenue = response.totalRevenue;
+  //         var totalOrders = response.totalOrders;
+  //         document.getElementById("totalRevenue").textContent = totalRevenue;
+  //         document.getElementById("totalOrders").textContent = totalOrders;
+  //         drawChart(totalRevenue, totalOrders);
+  //       },
+  //       error: function(xhr, status, error) {
+  //         alert("Có lỗi xảy ra khi tải dữ liệu.");
+  //       }
+  //     });
+  //   });
+  // });
+  let currentPage = 0;
+  const size = 5;
+  function loadTopSellingProducts() {
+    const timeType = document.getElementById('timeType').value;
+    $.ajax({
+      url: '/admin/orders/top-selling',
+      method: 'GET',
+      data: {
+        type: timeType,
+        page: currentPage,
+        size: size
+      },
+      success: function(response) {
+        const products = response.products;
+        const tableBody = document.getElementById('productsTableBody');
+        tableBody.innerHTML = '';
+        products.forEach(function(product) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+                    <td>${product.productName}</td>
+                    <td>${product.brand.name}</td>
+                    <td>${product.category.name}</td>
+                `;
+          tableBody.appendChild(row);
+        });
+
+        document.getElementById('prevPage').disabled = currentPage <= 0;
+        document.getElementById('nextPage').disabled = products.length < size;
+      },
+      error: function(xhr, status, error) {
+        alert("Có lỗi xảy ra khi tải dữ liệu.");
+      }
+    });
+  }
+
+  // Sự kiện thay đổi loại thời gian
+  document.getElementById('timeType').addEventListener('change', function() {
+    currentPage = 0;  // Quay lại trang đầu khi thay đổi loại thời gian
+    loadTopSellingProducts();
+  });
+
+  // Sự kiện nút Previous
+  document.getElementById('prevPage').addEventListener('click', function() {
+    if (currentPage > 0) {
+      currentPage--;
+      loadTopSellingProducts();
+    }
+  });
+
+  // Sự kiện nút Next
+  document.getElementById('nextPage').addEventListener('click', function() {
+    currentPage++;
+    loadTopSellingProducts();
+  });
+
+  loadTopSellingProducts();
+
+  const revenueIds = ['revenue'];
+  revenueIds.forEach(id => {
+    const element = document.getElementById(id);
+
+    // Kiểm tra nếu phần tử tồn tại
+    if (element) {
+      const rawValue = parseFloat(element.innerText.replace(/[^\d.-]/g, ''));
+      const formattedValue = new Intl.NumberFormat('vi-VN').format(rawValue);
+      element.innerText = formattedValue + " đ";
+    } else {
+      console.error(`Element with ID "${id}" not found!`);
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var totalRevenue = document.getElementById("totalRevenue").textContent;
+    var totalOrders = document.getElementById("totalOrders").textContent;
+    var revenueChart;
+    console.log(totalOrders)
+    function drawChart(totalRevenue, totalOrders) {
+      var ctx = document.getElementById('revenueChart').getContext('2d');
+      if (revenueChart) {
+        revenueChart.destroy();
+      }
+
+      revenueChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Doanh thu', 'Số đơn hàng'],
+          datasets: [
+            {
+              label: 'Doanh thu',
+              data: [totalRevenue, 0],
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1,
+              yAxisID: 'yRevenue',
+            },
+            {
+              label: 'Số đơn hàng',
+              data: [0, totalOrders],
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1,
+              yAxisID: 'yOrders',
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            yRevenue: {
+              type: 'linear',
+              position: 'left',
+              ticks: {
+                callback: function(value) {
+                  return value.toLocaleString() + ' VNĐ';
+                }
+              }
+            },
+            yOrders: {
+              type: 'linear',
+              position: 'right',
+              ticks: {
+                beginAtZero: true,
+                callback: function(value) {
+                  return value + ' đơn';
+                }
+              },
+              grid: {
+                drawOnChartArea: false
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: true
+            }
+          }
+        }
+      });
+    }
+
+    // Vẽ biểu đồ lần đầu
+    drawChart(totalRevenue, totalOrders);
+
+    // Xử lý sự kiện khi người dùng gửi form
+    $('#revenueForm').submit(function (event) {
+      event.preventDefault();
+
+      var startDate = $('#startDate').val();
+      var endDate = $('#endDate').val();
+
+      // Gửi AJAX để lấy dữ liệu thống kê
+      $.ajax({
+        url: '/admin/orders/thong-ke',
+        method: 'GET',
+        data: {
+          startDate: startDate,
+          endDate: endDate
+        },
+        success: function (response) {
+          console.log(response);
+
+          // Cập nhật tổng doanh thu và tổng số đơn hàng
+          var totalRevenue = response.totalRevenue;
+          var totalOrders = response.totalOrders;
+
+          document.getElementById("totalRevenue").textContent = totalRevenue;
+          document.getElementById("totalOrders").textContent = totalOrders;
+
+          // Vẽ lại biểu đồ với dữ liệu mới
+          drawChart(totalRevenue, totalOrders);
+        },
+        error: function (xhr, status, error) {
+          alert("Có lỗi xảy ra khi tải dữ liệu.");
+        }
+      });
+    });
+  });
+  // const revenueElement = document.getElementById('revenueDTYear');
+  // const revenue = parseInt(revenueElement.getAttribute('data-revenue'), 10);
+  //
+  // // Định dạng số với dấu phẩy
+  // revenueElement.innerText = revenue.toLocaleString();
+
+
+  // Lấy giá trị username từ nội dung thẻ h6
+  document.addEventListener("DOMContentLoaded", () => {
+    const usernameElement = document.getElementById("username-display");
+    if (usernameElement) {
+      const username = usernameElement.innerText.trim(); // Lấy username từ HTML
+      if (username) {
+        sessionStorage.setItem("username", username); // Lưu vào Session Storage
+        console.log("Username saved to Session Storage:", username);
+      }
+    }
+  });
+
+
+</script>
+</body>
+</html>

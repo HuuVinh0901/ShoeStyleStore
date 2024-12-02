@@ -1,0 +1,261 @@
+/* General Layout */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+.page-search .filter-header {
+    margin-top: 70px;
+}
+
+/* Filter Header Styling */
+.filter-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+    position: sticky; /* Giữ thanh filter-header ở đầu trang khi cuộn */
+    top: 70px; /* Vị trí khi cuộn */
+    background-color: white; /* Nền màu */
+    z-index: 10; /* Đảm bảo không bị chồng lên các phần tử khác */
+    padding-top: 20px;
+    width: 100%;
+}
+
+.filter-header a {
+    color: #007bff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+/* Sidebar Filter Styling */
+.filter-section {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+}
+
+.filter-section h5 {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.filter-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+
+/* Price Filter Grid */
+.price-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+}
+
+
+/* Size Filter */
+.size-options {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.size-options .size-option {
+    width: 40px;
+    height: 40px;
+    margin: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+#products-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    gap: 20px; /* Spacing between cards */
+    justify-content: start; /* Align grid items to the start */
+    width: 100%;
+    margin: 0 auto; /* Center the grid container */
+}
+
+
+.product-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    transition: transform 0.3s ease;
+    width: 250px; /* Fixed width */
+    height: 360px; /* Fixed height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 150px; /* Fixed height for image */
+    object-fit: cover; /* Ensures image does not distort */
+    border-radius: 8px;
+}
+
+.product-info {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1; /* Fills remaining space */
+}
+
+.product-info h6 {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.product-info p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 5px;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.product-price {font-weight: bold;
+    color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #products-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    #products-container {
+        grid-template-columns: 1fr; /* 1 column for the smallest screens */
+    }
+}
+
+
+
+.add-to-cart {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background-color: #f1f1f1;
+    border-radius: 50%;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.add-to-cart:hover {
+    background-color: #ddd;
+}
+
+/* Pagination Styling */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.pagination .page-item .page-link {
+    color: #007bff;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    color: #fff;
+}
+.link-details {
+    text-decoration: none;
+    color: inherit;
+}
+
+.link-details:hover {
+    text-decoration: none;
+    color: inherit;
+}
+.price-filter {
+    margin-bottom: 20px;
+}
+
+#priceRange {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.quick-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.quick-options button {
+    flex: 1;
+    padding: 5px 10px;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.color-circle {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: relative;
+    margin: 5px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.color-circle .checkmark {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    color: white;
+}
+
+.color-circle.selected {
+    border-color: #333; /* Đường viền nổi bật khi được chọn */
+}
+
+.color-circle.selected .checkmark {
+    display: block; /* Hiển thị dấu tích ✔ */
+}
+
+.color-circle:hover {
+    border-color: #666;
+}

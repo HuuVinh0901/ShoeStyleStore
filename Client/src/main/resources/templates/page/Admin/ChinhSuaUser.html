@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chỉnh Sửa Người Dùng</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            position: fixed;
+            width: 16.66%;
+            background-color: #343a40;
+        }
+        .sidebar .nav-link {
+            color: #fff;
+        }
+        .main-content {
+            margin-left: 16%;
+        }
+        .sidebar .nav-link.active-border {
+            border-left: 4px solid #17a2b8;
+            background-color: #495057;
+            color: #ffffff;
+        }
+        .styleUser {
+            margin-top: 20%;
+            color: #fff;
+        }
+        .styleForm {
+            width: 50%;
+            margin: 0 auto;
+        }
+        .form-label span.required {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="sidebar col-md-2 d-none d-md-block">
+            <div class="sidebar-sticky">
+                <h4 class="text-light text-center mt-4">AdminAD</h4>
+                <ul class="nav flex-column mt-3">
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-light" href="http://localhost:3000/admin/orders/Home" onclick="setActive(this)">Home</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-light" href="http://localhost:3000/admin/users/list" onclick="setActive(this)">Thành viên</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-light" href="http://localhost:3000/page/admin/reviews" onclick="setActive(this)">Đánh giá</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-light" href="http://localhost:3000/page/admin/products" onclick="setActive(this)">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-light" href="http://localhost:3000/admin/orders/view" onclick="setActive(this)">Đơn hàng</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-light" href="http://localhost:3000/admin/vouchers/view" onclick="setActive(this)">Khuyến Mãi</a>
+                    </li>
+</ul>
+                <div class="styleUser text-center" style="margin-top: 110%">
+                    <h6 id="username-display"></h6>
+                    <button class="btn btn-danger stylebtnDangXuat" onclick="logout()">Đăng Xuất</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content col-md-10 ml-sm-auto px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h2 id="form-title">Chỉnh sửa thành viên</h2> <!-- Tiêu đề động -->
+            </div>
+            <form class="styleForm" id='update-user-form'>
+                <input type="hidden" id="userId" name="userId" value=""/>
+                <!-- CI -->
+                <div class="mb-3">
+                    <label for="ci" class="form-label">CI <span class="required">(*)</span></label>
+                    <input type="text" class="form-control" id="ci" placeholder="Enter CI" required />
+                </div>
+
+                <!-- Name -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name <span class="required">(*)</span></label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter Name" required />
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email <span class="required">(*)</span></label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter Email" required />
+                </div>
+
+                <!-- Username -->
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username <span class="required">(*)</span></label>
+                    <input type="text" class="form-control" id="username" placeholder="Enter Username" required />
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password <span class="required">(*)</span></label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter Password" required />
+                </div>
+
+                <!-- Phone -->
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number <span class="required">(*)</span></label>
+                    <input type="tel" class="form-control" id="phone" placeholder="Enter Phone Number" required />
+                </div>
+
+                <!-- Status -->
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status <span class="required">(*)</span></label>
+                    <select class="form-control" id="status" required>
+                        <option value="">Select Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <!-- Role -->
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role <span class="required">(*)</span></label>
+                    <select class="form-control" id="role" required>
+                        <option value="">Select Role</option>
+                        <option value="1">Admin</option>
+                        <option value="2">Customer</option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </main>
+
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/js/User.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const username = sessionStorage.getItem("username"); // Lấy username từ Session Storage
+        if (username) {
+            console.log("Username found in Session Storage:", username);
+            document.getElementById("username-display").innerText = username; // Hiển thị lại
+        } else {
+            console.log("No username found. Redirecting to login page.");
+            window.location.href = "/login"; // Chuyển hướng về trang đăng nhập nếu không có username
+        }
+    });
+
+
+    function logout() {
+        sessionStorage.removeItem("username"); // Xóa username khỏi Session Storage
+        console.log("Username removed from Session Storage");
+        window.location.href = "/login"; // Chuyển hướng về trang đăng nhập
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* Sidebar styling */
+      .sidebar {
+        min-height: 100vh;
+        position: fixed;
+        width: 16.66%;
+        background-color: #343a40;
+      }
+      .sidebar .nav-link {
+        color: #fff;
+      }
+      .sidebar .nav-link.active-border {
+        border-left: 4px solid #17a7be;
+        background-color: #495057;
+        color: #ffffff;
+      }
+      .styleUser {
+        margin-top: 50%;
+        color: #fff;
+      }
+      .styleForm {
+        width: 50%;
+        margin: 0 auto;
+      }
+
+      /* Main content area */
+      .main-content {
+        margin-left: 16.66%;
+        padding-top: 20px;
+      }
+
+      /* Dashboard card styles */
+      .dashboard-card {
+        color: white;
+        font-weight: bold;
+      }
+      .bg-blue {
+        background-color: #17a2b8;
+      }
+      .bg-green {
+        background-color: #28a745;
+      }
+      .bg-orange {
+        background-color: #fd7e14;
+      }
+      .bg-red {
+        background-color: #dc3545;
+      }
+      .card .icon {
+        font-size: 40px;
+        opacity: 0.3;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+      .section-title {
+        font-weight: bold;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <nav class="sidebar col-md-2 d-none d-md-block">
+          <div class="sidebar-sticky">
+            <h4 class="text-light text-center mt-4">AdminAD</h4>
+            <ul class="nav flex-column mt-3">
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Home</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Thành viên</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Bài viết</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Danh mục</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Sản phẩm</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Đơn hàng</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Quản lý kho</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Danh sách liên hệ</a
+                >
+              </li>
+              <li class="nav-item mt-3">
+                <a
+                  class="nav-link text-light"
+                  href="#"
+                  onclick="setActive(this)"
+                  >Khuyến Mãi</a
+                >
+              </li>
+            </ul>
+            <div class="styleUser text-center">
+              <h6>Hồ Đức Trí Hiếu</h6>
+              <button class="btn btn-danger stylebtnDangXuat">Đăng Xuất</button>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content col-md-10">
+          <h2 class="mb-4">Quản Trị Website</h2>
+          <div class="row">
+            <!-- Đơn hàng -->
+            <div class="col-md-3 mb-4">
+              <div class="card dashboard-card bg-blue position-relative">
+                <div class="card-body">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <h4>13</h4>
+                      <p>Đơn hàng</p>
+                    </div>
+                    <i class="fas fa-shopping-bag icon"></i>
+                  </div>
+                  <div class="section-title">DOANH THU HÔM NAY</div>
+                  <h5>25,000,000 đ</h5>
+                  <a href="#" class="text-white"
+                    >More info <i class="fas fa-arrow-circle-right"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Danh mục sản phẩm -->
+            <div class="col-md-3 mb-4">
+              <div class="card dashboard-card bg-green position-relative">
+                <div class="card-body">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <h4>14</h4>
+                      <p>Danh Mục Sản Phẩm</p>
+                    </div>
+                    <i class="fas fa-chart-bar icon"></i>
+                  </div>
+                  <div class="section-title">DOANH THU TUẦN</div>
+                  <h5>0 đ</h5>
+                  <a href="#" class="text-white"
+                    >More info <i class="fas fa-arrow-circle-right"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Thành viên -->
+            <div class="col-md-3 mb-4">
+              <div class="card dashboard-card bg-orange position-relative">
+                <div class="card-body">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <h4>5</h4>
+                      <p>Thành Viên</p>
+                    </div>
+                    <i class="fas fa-user-plus icon"></i>
+                  </div>
+                  <div class="section-title">DOANH THU THÁNG NÀY</div>
+                  <h5>25,000,000 đ</h5>
+                  <a href="#" class="text-white"
+                    >More info <i class="fas fa-arrow-circle-right"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sản phẩm -->
+            <div class="col-md-3 mb-4">
+              <div class="card dashboard-card bg-red position-relative">
+                <div class="card-body">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <h4>215</h4>
+                      <p>Sản Phẩm</p>
+                    </div>
+                    <i class="fas fa-chart-pie icon"></i>
+                  </div>
+                  <div class="section-title">DOANH THU NĂM</div>
+                  <h5>222,100,000 đ</h5>
+                  <a href="#" class="text-white"
+                    >More info <i class="fas fa-arrow-circle-right"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

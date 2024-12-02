@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="../css/MyOrders.css">
+
+<div class="order-container">
+  <h2 class="order-title">My Orders</h2>
+  <div class="order-tabs">
+    <!-- Tab Headers -->
+    <div class="order-tabs-heads">
+      <div class="order-tabs-head order-tabs-head-active" data-id="active">Active</div>
+      <div class="order-tabs-head" data-id="cancelled">Cancelled</div>
+      <div class="order-tabs-head" data-id="completed">Completed</div>
+    </div>
+    
+    <!-- Tab Contents -->
+    <div class="order-tabs-contents">
+      <!-- Active Orders -->
+      <div class="order-tabs-content active" id="active">
+        <div class="order-card">
+          <div class="order-header d-flex justify-content-between">
+            <div>
+              <p class="order-number">Order no: <b>#5558760098</b></p>
+              <p>Order Date: 2 June 2023 2:40 PM</p>
+              <p>Estimated Delivery Date: 8 June 2023</p>
+            </div>
+            <div class="order-status">
+              <p>Order Status: <b>Delivered</b></p>
+              <p>Payment Method: <b>Cash on Delivery</b></p>
+            </div>
+          </div>
+          <div class="order-item d-flex align-items-center">
+            <div class="order-item-image-wrapper">
+              <img src="../images/product1.jpg" alt="Printed White Coat" class="order-item-image">
+            </div>
+            <div class="order-item-details">
+              <h5>Printed White Coat</h5>
+              <p>Colour: White</p>
+              <p>Qty: 1</p>
+              <p>Total: <b>$23.00</b></p>
+            </div>
+            <button class="order-item-btn">View Detail</button>
+          </div>
+        </div>
+      </div>
+      <!-- Cancelled Orders -->
+      <div class="order-tabs-content" id="cancelled">
+        <p>No cancelled orders yet.</p>
+      </div>
+      <!-- Completed Orders -->
+      <div class="order-tabs-content" id="completed">
+        <p>No completed orders yet.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/MyOrders.js"></script>

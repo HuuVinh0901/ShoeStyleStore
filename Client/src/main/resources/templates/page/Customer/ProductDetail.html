@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Product Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+    <link rel="stylesheet" href="/css/ProductDetail.css"/>
+</head>
+
+<body class="page-product-detail">
+<div id="header"></div>
+<div id="breadcrumb-container"></div>
+<div class="container mt-5">
+    <div class="product-details">
+        <!-- Product Image and Thumbnails -->
+        <div class="product-image">
+            <img th:src="@{'http://localhost:8080/ImageProduct/' + ${product.productID} + '/' + ${product.imageURL.get(0)}}"
+                 alt="Product Image">
+        </div>
+        <form id="productDetailForm" method="POST" action="/customer/cart/add">
+            <!-- Product Information -->
+            <div class="product-info">
+                <h6 th:text="${product.getBrand().getName()+' / '+product.getCategory().getName()}"></h6>
+                <h1 th:text="${product.productName}"></h1>
+                <p>⭐⭐⭐⭐⭐ <span>(2.5k Reviews)</span></p>
+                <div class="product-tags">
+                    <span>Running Shoes</span>
+                    <span>Casual Sneakers</span>
+                    <span>Limited Edition</span>
+                </div>
+
+                <h5 class="mt-4">Product Description</h5>
+                <p th:text="${product.description}">
+                <p id="stockQuantityDetail" style="font-weight: bold">Stock quantity: </p>
+                <!-- Price and Discount -->
+                <p class="product-price" id="product-price" th:text="${product.price}"></p>
+
+                <!-- Size Chart -->
+                <h5>Size Chart</h5>
+                <div class="size-options">
+                    <div th:each="detail : ${productDetail}">
+                        <button type="button" class="size-box"
+                                th:text="${detail.size.sizeValue}"
+                                th:value="${detail.productDetailID}"
+                                th:data-stock-quantity="${detail.stockQuantity}">
+                            <!-- Thêm thuộc tính data-stock-quantity -->
+                        </button>
+                        <input type="hidden" name="productDetailID" id="productDetailID"/>
+                    </div>
+                    <input type="hidden" name="subTotal" id="subTotal"/>
+
+                </div>
+
+                <!-- Quantity Control -->
+                <h5 class="mt-4">Item Quantity</h5>
+                <div class="quantity-control">
+                    <button id="decrease" type="button">-</button>
+                    <span id="quantity-display">1</span>
+                    <button id="increase" type="button">+</button>
+                    <input type="hidden" id="quantity-input" name="quantity" value="1" min="1"/>
+                </div>
+
+                <!-- Buy Now and Add to Cart Buttons in One Row -->
+                <div class="btn-container">
+                    <button class="btn-buy-now" type="button">Buy Now</button>
+                    <button class="btn-add-to-cart" type="submit">Add to Cart</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Description and Reviews Tabs -->
+
+
+    <div class="related-products">
+        <h2 class="related-products__title">Related Products</h2>
+        <button class="related-products__button related-products__button--prev" onclick="scrollProducts('prev')">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="related-products__list">
+            <!-- Product Card 1 -->
+            <div class="product-card">
+                <div class="product-card__image-wrapper">
+                    <img src="../../../../../resources/static/images/product1.jpg" alt="Product 1"
+                         class="product-card__image">
+                    <span class="product-card__discount-badge">-30%</span>
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Sneakers De Sport Running</h3>
+                    <p class="product-card__category">Shoes</p>
+                    <p class="product-card__price">$70.00 <span class="product-card__price--old">$100.00</span></p>
+                </div>
+                <div class="product-card__actions">
+                    <button class="product-card__add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product Card 2 -->
+            <div class="product-card">
+                <div class="product-card__image-wrapper">
+                    <img src="../../../../../resources/static/images/product1.jpg" alt="Product 2"
+                         class="product-card__image">
+                    <span class="product-card__discount-badge">-20%</span>
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Professional Sports Shoes</h3>
+                    <p class="product-card__category">Shoes</p>
+                    <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                </div>
+                <div class="product-card__actions">
+                    <button class="product-card__add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <!-- Add more product cards as needed -->
+            <div class="product-card">
+                <div class="product-card__image-wrapper">
+                    <img src="../../../../../resources/static/images/product2.jpg" alt="Product 2"
+                         class="product-card__image">
+                    <span class="product-card__discount-badge">-20%</span>
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Professional Sports Shoes</h3>
+                    <p class="product-card__category">Shoes</p>
+                    <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                </div>
+                <div class="product-card__actions">
+                    <button class="product-card__add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card__image-wrapper">
+                    <img src="../../../../../resources/static/images/product2.jpg" alt="Product 2"
+                         class="product-card__image">
+                    <span class="product-card__discount-badge">-20%</span>
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Professional Sports Shoes</h3>
+                    <p class="product-card__category">Shoes</p>
+                    <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                </div>
+                <div class="product-card__actions">
+                    <button class="product-card__add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card__image-wrapper">
+                    <img src="../../../../../resources/static/images/product2.jpg" alt="Product 2"
+                         class="product-card__image">
+                    <span class="product-card__discount-badge">-20%</span>
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Professional Sports Shoes</h3>
+                    <p class="product-card__category">Shoes</p>
+                    <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                </div>
+                <div class="product-card__actions">
+                    <button class="product-card__add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card__image-wrapper">
+                    <img src="../../../../../resources/static/images/product2.jpg" alt="Product 2"
+                         class="product-card__image">
+                    <span class="product-card__discount-badge">-20%</span>
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Professional Sports Shoes</h3>
+                    <p class="product-card__category">Shoes</p>
+                    <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                </div>
+                <div class="product-card__actions">
+                    <button class="product-card__add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card__image-wrapper">
+                    <img src="../../../../../resources/static/images/product1.jpg" alt="Product 2"
+                         class="product-card__image">
+                    <span class="product-card__discount-badge">-20%</span>
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Professional Sports Shoes</h3>
+                    <p class="product-card__category">Shoes</p>
+                    <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                </div>
+                <div class="product-card__actions">
+                    <button class="product-card__add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card__image-wrapper">
+                    <img src="../../../../../resources/static/images/product1.jpg" alt="Product 2"
+                         class="product-card__image">
+                    <span class="product-card__discount-badge">-20%</span>
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Professional Sports Shoes</h3>
+                    <p class="product-card__category">Shoes</p>
+                    <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                </div>
+                <div class="product-card__actions">
+                    <button class="product-card__add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card__image-wrapper">
+                    <img src="../../../../../resources/static/images/product1.jpg" alt="Product 2"
+                         class="product-card__image">
+                    <span class="product-card__discount-badge">-20%</span>
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Professional Sports Shoes</h3>
+                    <p class="product-card__category">Shoes</p>
+                    <p class="product-card__price">$80.00 <span class="product-card__price--old">$100.00</span></p>
+                </div>
+                <div class="product-card__actions">
+                    <button class="product-card__add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="related-products__button related-products__button--next" onclick="scrollProducts('next')"><i
+                class="fas fa-chevron-right"></i></button>
+    </div>
+    <div id="quantityAlertModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Notification</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="quantityAlertMessage">The quantity of the product you selected exceeds the quantity in
+                        stock.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="footer"></div>
+<script src="/js/script.js"></script>
+<script src="/js/ProductDetail.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Lấy tất cả các nút size
+        const sizeButtons = document.querySelectorAll('.size-box');
+        const productDetailIDInput = document.getElementById('productDetailID');
+        const decreaseBtn = document.getElementById("decrease");
+        const increaseBtn = document.getElementById("increase");
+        const quantityDisplay = document.getElementById("quantity-display");
+        const quantityInput = document.getElementById("quantity-input");
+        const stockQuantityDetail = document.getElementById('stockQuantityDetail');
+
+        // Lắng nghe sự kiện click của các nút size
+        sizeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // Cập nhật giá trị productDetailID vào input ẩn
+                productDetailIDInput.value = this.value;
+
+                // Cập nhật thông tin số lượng tồn kho vào #stockQuantityDetail
+                const stockQuantity = this.getAttribute('data-stock-quantity'); // Lấy số lượng tồn kho từ thuộc tính data
+                stockQuantityDetail.textContent = `Stock quantity: ${stockQuantity}`; // Cập nhật số lượng tồn kho
+            });
+        });
+
+        // Xử lý tăng giảm số lượng
+        const updateQuantity = (value) => {
+            if (value < 1) value = 1; // Không cho giá trị nhỏ hơn 1
+            quantityDisplay.textContent = value; // Cập nhật giá trị trong <span>
+            quantityInput.value = value; // Cập nhật giá trị trong <input>
+        };
+
+        // Xử lý khi bấm nút tăng
+        increaseBtn.addEventListener("click", () => {
+            const currentValue = parseInt(quantityInput.value, 10);
+            updateQuantity(currentValue + 1);
+        });
+
+        // Xử lý khi bấm nút giảm
+        decreaseBtn.addEventListener("click", () => {
+            const currentValue = parseInt(quantityInput.value, 10);
+            updateQuantity(currentValue - 1);
+        });
+
+        // Đảm bảo form chỉ được gửi khi bấm vào nút "Add to Cart"
+        const addToCartButton = document.querySelector('.btn-add-to-cart');
+        addToCartButton.addEventListener('click', function (event) {
+            if (!productDetailIDInput.value) {
+                event.preventDefault(); // Prevent form submission
+                alert("Please select a size before adding to cart.");
+            } else {
+                document.getElementById('productDetailForm').submit();
+            }
+        });
+
+        // Đoạn code xử lý nút Buy Now
+        const buttonBuyNow = document.querySelector('.btn-buy-now');
+        buttonBuyNow.addEventListener('click', function (event) {
+            const productDetailId = document.getElementById("productDetailID").value;
+            const price = document.getElementById("product-price").textContent;
+            const quantity = parseInt(document.getElementById("quantity-input").value, 10);
+            const selectedSizeButton = document.querySelector('.size-box.active');
+            const stockQuantity = selectedSizeButton ? parseInt(selectedSizeButton.getAttribute('data-stock-quantity')) : 0;
+
+            if (!productDetailId) {
+                alert("Vui lòng chọn sản phẩm trước khi thêm vào giỏ hàng!");
+                return;
+            }
+
+            // Kiểm tra nếu số lượng chọn lớn hơn số lượng tồn kho
+            if (quantity > stockQuantity) {
+                // Hiển thị modal cảnh báo số lượng vượt quá tồn kho
+                $('#quantityAlertModal').modal('show');
+            } else {
+                const url = "/checkoutFromProductDetail"; // Thay URL theo controller của bạn
+                const queryParams = new URLSearchParams();
+                queryParams.append("productDetailId", parseInt(productDetailId));
+                queryParams.append("quantity", quantity);
+                queryParams.append("price", parseInt(price));
+
+                window.location.href = `${url}?${queryParams.toString()}`;
+            }
+        });
+    });
+
+</script>
+
+</body>
+
+</html>
