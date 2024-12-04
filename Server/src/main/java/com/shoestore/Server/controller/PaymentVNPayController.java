@@ -6,17 +6,14 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
+import com.shoestore.Server.dto.DataResponse;
+import com.shoestore.Server.dto.PaymentDTO;
 import com.shoestore.Server.utils.GetIpAddress;
 import com.shoestore.Server.utils.VnPayUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -28,12 +25,12 @@ public class PaymentVNPayController {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long amount = orderPrice*100;
+        long amount = orderPrice * 100;
         String bankCode = "NCB";
 
         String vnp_TxnRef = VnPayUtils.getRandomNumber(8);
         String vnp_IpAddr = GetIpAddress.getIpAddress();
-
+        System.out.println(vnp_IpAddr);
         String vnp_TmnCode = VnPayUtils.vnp_TmnCode;
 
         Map<String, String> vnp_Params = new HashMap<>();
@@ -95,60 +92,21 @@ public class PaymentVNPayController {
 
         return paymentUrl;
     }
-    @RequestMapping(value = "/payment/result", method = {RequestMethod.GET, RequestMethod.POST})
-    public String paymentResult(@RequestParam Map<String, String> params) throws UnsupportedEncodingException {
-        System.out.println("Thông tin trả về từ VNPay: " + params);
 
-        // Lấy thông tin từ các tham số trả về
-        String vnp_SecureHash = params.get("vnp_SecureHash");
+    @GetMapping("/vn-pay-callback")
+    public ResponseEntity<DataResponse<PaymentDTO.VNPayResponse>> payCallbackHandler(HttpServletRequest request) {
+        String status = request.getParameter("vnp_ResponseCode");
 
-        // Xây dựng dữ liệu hash từ các tham số nhận được
-        StringBuilder hashData = new StringBuilder();
-        params.remove("vnp_SecureHash");  // Xóa SecureHash ra ngoài vì nó không tham gia tính toán
-
-        // Duyệt qua các tham số và xây dựng chuỗi hashData theo thứ tự bảng chữ cái
-        List<String> fieldNames = new ArrayList<>(params.keySet());
-        Collections.sort(fieldNames);  // Sắp xếp theo thứ tự chữ cái
-
-        for (String fieldName : fieldNames) {
-            String fieldValue = URLDecoder.decode(params.get(fieldName), "UTF-8"); // Giải mã giá trị tham số
-            if (fieldValue != null && !fieldValue.isEmpty()) {
-                // Mã hóa URL tham số trước khi thêm vào chuỗi hashData
-                hashData.append(fieldName)
-                        .append("=")
-                        .append(fieldValue)
-                        .append("&");
-            }
-        }
-
-        // Xử lý việc bỏ "&" cuối cùng
-        String dataToHash = hashData.toString();
-        if (dataToHash.endsWith("&")) {
-            dataToHash = dataToHash.substring(0, dataToHash.length() - 1);
-        }
-
-        // Tính toán lại mã băm từ dữ liệu trả về
-        String secureHashCheck = VnPayUtils.hmacSHA512(VnPayUtils.secretKey, dataToHash);
-
-        // In ra thông tin để kiểm tra
-        System.out.println("Dữ liệu hash: " + dataToHash);
-        System.out.println("Mã bảo mật tính toán: " + secureHashCheck);
-        System.out.println("Mã bảo mật từ VNPay: " + vnp_SecureHash);
-
-        // So sánh SecureHash từ VNPay và tính toán của bạn
-        if (secureHashCheck.equals(vnp_SecureHash)) {
-            // Kiểm tra kết quả giao dịch
-            String vnp_ResponseCode = params.get("vnp_ResponseCode");
-            if ("00".equals(vnp_ResponseCode)) {
-                // Giao dịch thành công
-                return "Thanh toán thành công!";
-            } else {
-                // Giao dịch thất bại
-                return "Thanh toán thất bại!";
-            }
+        if ("00".equals(status)) {
+            // Giao dịch thành công
+            return ResponseEntity.ok(DataResponse.<PaymentDTO.VNPayResponse>builder()
+                    .data(List.of(new PaymentDTO.VNPayResponse("00", "Success", "")))
+                    .build());
         } else {
-            // Mã bảo mật không hợp lệ
-            return "Mã bảo mật không hợp lệ! SecureHash from VNPay: " + vnp_SecureHash + ", calculated SecureHash: " + secureHashCheck;
+            // Giao dịch không thành công
+            return ResponseEntity.ok(DataResponse.<PaymentDTO.VNPayResponse>builder()
+                    .data(List.of(new PaymentDTO.VNPayResponse("99", "Failed", "")))
+                    .build());
         }
     }
 
