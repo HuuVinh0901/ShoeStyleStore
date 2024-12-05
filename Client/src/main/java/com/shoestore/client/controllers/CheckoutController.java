@@ -9,6 +9,7 @@ import com.shoestore.client.dto.response.OrderDetailDTO;
 import com.shoestore.client.dto.response.OrderDetailResponeDTO;
 import com.shoestore.client.dto.response.ProductDetailCheckoutDTO;
 import com.shoestore.client.service.*;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,7 +170,7 @@ productDetailCheckoutDTO.setProductId(productDTO.getProductID());
     @PostMapping("/order/payment/add")
     public String addOrder(@RequestBody Map<String, Object> payload,
                            OrderCheckoutDTO orderCheckoutDTO
-    ) {
+    ) throws MessagingException {
         // Lấy thông tin address, total, delivery từ request body
         Integer address = (Integer) payload.get("address");
         Integer total = (Integer) payload.get("total");
@@ -238,6 +239,7 @@ productDetailCheckoutDTO.setProductId(productDTO.getProductID());
         receiptDTO.setReceiptDate(LocalDate.now());
         receiptDTO.setTotal(total);
         ReceiptDTO receiptSave= receiptService.addReceipt(receiptDTO);
+        paymentService.sendAmount(total);
         // Xử lý dữ liệu ở đây và trả về phản hồi
         return "redirect:/login";
     }

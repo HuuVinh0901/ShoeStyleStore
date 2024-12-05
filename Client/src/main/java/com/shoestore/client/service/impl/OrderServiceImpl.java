@@ -109,7 +109,6 @@ public class OrderServiceImpl implements OrderService {
         ResponseEntity<OrderCheckoutDTO> response = restTemplate.exchange(
                 apiUrl, HttpMethod.GET, null, OrderCheckoutDTO.class
         );
-        System.out.println("Response Body: " + response.getBody());
         return response.getBody();
     }
 

@@ -49,7 +49,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         ResponseEntity<OrderDetailResponeDTO> response=restTemplate.postForEntity(
                 apiUrl,orderDetailResponeDTO, OrderDetailResponeDTO.class
         );
-        System.out.println("GỬi " +orderDetailResponeDTO);
         return response.getBody();
     }
 
