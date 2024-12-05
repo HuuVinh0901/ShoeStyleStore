@@ -96,16 +96,16 @@ public class PaymentVNPayController {
     @GetMapping("/vn-pay-callback")
     public ResponseEntity<DataResponse<PaymentDTO.VNPayResponse>> payCallbackHandler(HttpServletRequest request) {
         String status = request.getParameter("vnp_ResponseCode");
-
+        String txnRef = request.getParameter("vnp_TxnRef");
         if ("00".equals(status)) {
             // Giao dịch thành công
             return ResponseEntity.ok(DataResponse.<PaymentDTO.VNPayResponse>builder()
-                    .data(List.of(new PaymentDTO.VNPayResponse("00", "Success", "")))
+                    .data(List.of(new PaymentDTO.VNPayResponse("00", "Success", txnRef)))
                     .build());
         } else {
             // Giao dịch không thành công
             return ResponseEntity.ok(DataResponse.<PaymentDTO.VNPayResponse>builder()
-                    .data(List.of(new PaymentDTO.VNPayResponse("99", "Failed", "")))
+                    .data(List.of(new PaymentDTO.VNPayResponse("99", "Failed", txnRef)))
                     .build());
         }
     }

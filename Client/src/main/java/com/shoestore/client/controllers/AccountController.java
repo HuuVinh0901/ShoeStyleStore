@@ -2,9 +2,11 @@ package com.shoestore.client.controllers;
 
 import com.shoestore.client.dto.request.AddressDTO;
 import com.shoestore.client.dto.request.OrderDTO;
+import com.shoestore.client.dto.request.PaymentDTO;
 import com.shoestore.client.dto.request.UserDTO;
 import com.shoestore.client.service.AddressService;
 import com.shoestore.client.service.OrderService;
+import com.shoestore.client.service.PaymentService;
 import com.shoestore.client.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +45,17 @@ public class AccountController {
 
     @Autowired
     private OrderService orderService;
+  @Autowired
+  private PaymentService paymentService;
 
   @GetMapping("/customer/account/my-orders")
   public String showMyOrders(Model model, HttpSession session) {
     System.out.println(user.getName());
     List<OrderDTO> allOrders = orderService.getOrdersByUserId(user.getUserID());
-    System.out.println(allOrders);
+for (OrderDTO order : allOrders) {
+        PaymentDTO payment = paymentService.getPaymentByOrderId(order.getOrderID());
+        order.setPayment(payment);  // Thêm Payment vào OrderDTO
+    }
     // Phân loại đơn hàng
     List<OrderDTO> processingOrders = allOrders.stream()
             .filter(order -> order.getStatus().equalsIgnoreCase("Processing"))

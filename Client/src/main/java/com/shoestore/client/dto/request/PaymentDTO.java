@@ -12,4 +12,5 @@ public class PaymentDTO {
     private OrderCheckoutDTO order;
     private LocalDate paymentDate;
     private String status;
+    private String code;
 }

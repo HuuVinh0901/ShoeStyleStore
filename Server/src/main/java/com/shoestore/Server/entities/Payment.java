@@ -23,6 +23,7 @@ public class Payment {
     @JoinColumn(name = "orderID")
     private Order order;
     private LocalDate paymentDate;
+    private String code;
     private String status;
     @OneToOne(mappedBy = "payment",cascade = CascadeType.ALL)
     @JsonIgnore

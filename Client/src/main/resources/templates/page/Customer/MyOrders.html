@@ -30,7 +30,7 @@
           <div class="order-item d-flex align-items-center">
             <div class="order-item-details">
               <h5 th:text="${order.productName}">Product Name</h5>
-              <p>Qty: <span th:text="${order.quantity}">0</span></p>
+              <p>Payment status: <b th:text="${order.payment.getStatus()}"></b></p>
             </div>
             <button class="order-item-btn">View Detail</button>
           </div>
@@ -56,7 +56,7 @@
           <div class="order-item d-flex align-items-center">
             <div class="order-item-details">
               <h5 th:text="${order.productName}">Product Name</h5>
-              <p>Qty: <span th:text="${order.quantity}">0</span></p>
+              <p>Order Status: <b th:text="${order.status}">Delivered</b></p>
             </div>
             <button class="order-item-btn">View Detail</button>
           </div>

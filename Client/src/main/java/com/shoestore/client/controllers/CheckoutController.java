@@ -4,10 +4,7 @@ import ch.qos.logback.core.net.SyslogOutputStream;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shoestore.client.dto.request.*;
-import com.shoestore.client.dto.response.CartItemResponseDTO;
-import com.shoestore.client.dto.response.OrderDetailDTO;
-import com.shoestore.client.dto.response.OrderDetailResponeDTO;
-import com.shoestore.client.dto.response.ProductDetailCheckoutDTO;
+import com.shoestore.client.dto.response.*;
 import com.shoestore.client.service.*;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -225,21 +222,25 @@ productDetailCheckoutDTO.setProductId(productDTO.getProductID());
         PaymentDTO paymentDTO = new PaymentDTO();
         ReceiptDTO receiptDTO=new ReceiptDTO();
         if(paymentCase==1){
-            paymentDTO.setStatus("Completed");
+            String idCheckPayment=paymentService.sendAmount(total);
+            paymentDTO.setCode(idCheckPayment);
+        }
 
-        }
-        else{
-            paymentDTO.setStatus("Pending");
-        }
+        paymentDTO.setStatus("Pending");
+        paymentDTO.setCode("Cash delivery");
+
         paymentDTO.setPaymentDate(LocalDate.now());
         paymentDTO.setOrder(orderSave);
+
         System.out.println("Payment gui:"+paymentDTO);
         PaymentDTO paymentSave = paymentService.addPayment(paymentDTO);
         receiptDTO.setPayment(paymentSave);
         receiptDTO.setReceiptDate(LocalDate.now());
         receiptDTO.setTotal(total);
-        ReceiptDTO receiptSave= receiptService.addReceipt(receiptDTO);
-        paymentService.sendAmount(total);
+//        ReceiptDTO receiptSave= receiptService.addReceipt(receiptDTO);
+
+
+
         // Xử lý dữ liệu ở đây và trả về phản hồi
         return "redirect:/login";
     }

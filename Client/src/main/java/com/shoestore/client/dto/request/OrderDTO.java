@@ -17,7 +17,7 @@ public class OrderDTO {
     private String dateCreated;
     private String productName;
     private int quantity;
-
+    private PaymentDTO payment;
     public OrderDTO(String dateCreated, double totalPrice, String status, String name, int orderID) {
         this.dateCreated = dateCreated;
         this.totalPrice = totalPrice;
